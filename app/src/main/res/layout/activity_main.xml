@@ -25,7 +25,7 @@
         android:id="@+id/dice_left"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_6_5"
+        app:srcCompat="@drawable/dice_4_04"
         app:layout_constraintRight_toRightOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
@@ -37,7 +37,7 @@
         android:id="@+id/dice_right"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_6_2"
+        app:srcCompat="@drawable/dice_5_01"
         app:layout_constraintLeft_toLeftOf="@+id/textView"
         app:layout_constraintBottom_toBottomOf="@+id/dice_left"
         android:layout_marginBottom="15dp"/>
