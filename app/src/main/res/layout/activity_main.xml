@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.kulikovman.dices.MainActivity">
+
+
+    <ImageView
+        android:id="@+id/dice_left"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        app:srcCompat="@drawable/dice_6_05"
+        tools:layout_editor_absoluteY="185dp"
+        tools:layout_editor_absoluteX="8dp"/>
+
+    <ImageView
+        android:id="@+id/dice_right"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        app:srcCompat="@drawable/dice_6_02"
+        tools:layout_editor_absoluteY="185dp"
+        app:layout_constraintLeft_toRightOf="@+id/dice_left"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
