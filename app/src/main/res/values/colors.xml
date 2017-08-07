@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6daaff</color>
-    <color name="colorPrimaryDark">#4D4D4D</color>
+    <color name="colorPrimaryDark">#808080</color>
     <color name="colorAccent">#d7d7d7</color>
+
+    // Базовые цвета
+    <color name="transparent">#00ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="gray_1">#F2F2F2</color>
+    <color name="gray_2">#E6E6E6</color>
+    <color name="gray_3">#CCCCCC</color>
+    <color name="gray_4">#B3B3B3</color>
+    <color name="gray_5">#999999</color>
+    <color name="gray_6">#808080</color>
+    <color name="gray_7">#666666</color>
+    <color name="gray_8">#4D4D4D</color>
+    <color name="gray_9">#333333</color>
+    <color name="gray_10">#1A1A1A</color>
+    <color name="black">#000000</color>
+    <color name="red">#ff5e5e</color>
+    <color name="orange">#ffa65e</color>
+    <color name="yellow">#fff45e</color>
+    <color name="green">#6fe455</color>
+    <color name="blue">#5ebcff</color>
+    <color name="violet">#a95eff</color>
+    <color name="pink">#ff5efa</color>
 </resources>
