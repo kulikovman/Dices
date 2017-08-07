@@ -19,30 +19,27 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.39999998"/>
+        app:layout_constraintVertical_bias="0.40"/>
 
     <ImageView
         android:id="@+id/dice_left"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_6_05"
-        android:layout_marginRight="0dp"
+        app:srcCompat="@drawable/dice_6_5"
         app:layout_constraintRight_toRightOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.35000002"/>
+        app:layout_constraintVertical_bias="0.35"/>
 
     <ImageView
         android:id="@+id/dice_right"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_6_02"
-        android:layout_marginLeft="0dp"
+        app:srcCompat="@drawable/dice_6_2"
         app:layout_constraintLeft_toLeftOf="@+id/textView"
         app:layout_constraintBottom_toBottomOf="@+id/dice_left"
         android:layout_marginBottom="15dp"/>
-
 
 </android.support.constraint.ConstraintLayout>
