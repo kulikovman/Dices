@@ -8,57 +8,40 @@
     tools:context="ru.kulikovman.dices.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/alignment_field"
         android:layout_width="10dp"
         android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.40"/>
-
-    <ImageView
-        android:id="@+id/dice_left"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_4_04"
-        app:layout_constraintRight_toRightOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.38"/>
 
     <ImageView
         android:id="@+id/dice_right"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/dice_5_01"
-        app:layout_constraintLeft_toLeftOf="@+id/textView"
+        android:layout_marginBottom="15dp"
+        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="@+id/dice_left"
-        android:layout_marginBottom="15dp"/>
+        app:layout_constraintLeft_toLeftOf="@+id/alignment_field"
+        app:srcCompat="@drawable/dice_5_01"/>
 
-    <Button
-        android:id="@+id/button"
-        android:background="@drawable/button_selector"
-        android:textColor="@drawable/button_text_color"
-        android:textSize="15sp"
-        android:fontFamily="sans-serif-lite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/dice_left"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Бросить кубики!"
+        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/alignment_field"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87"/>
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/dice_4_04"/>
 
 </android.support.constraint.ConstraintLayout>
