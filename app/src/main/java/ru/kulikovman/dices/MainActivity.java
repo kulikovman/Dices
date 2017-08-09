@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         mRightNumber = 1 + random.nextInt(6);
 
         // Получаем вид кубиков
+        // Вид кубика не должен совпадать с предыдущим видом
+        // Вид правого кубика не должен совпадать с видом левого кубика
         int leftViewInt = mLeftView;
         int rightViewInt = mRightView;
 
@@ -96,26 +98,6 @@ public class MainActivity extends AppCompatActivity {
         // Загружаем картинки для кубиков
         loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
         loadDiceImage(mRightDice, mRightNumber, mRightView);
-
-
-        /*// Переводим полученные значения в строки
-        String leftNumber = String.valueOf(mLeftNumber);
-        String rightNumber = String.valueOf(mRightNumber);
-        String leftView = String.valueOf(mLeftView);
-        String rightView = String.valueOf(mRightView);
-
-        // Формируем имя картинки с кубиком - dice_1_01
-        String leftImage = "dice_" + leftNumber + "_0" + leftView;
-        String rightImage = "dice_" + rightNumber + "_0" + rightView;
-        Log.d("myLog", "Имя ресурса: " + leftImage + " | " + rightImage);
-
-        // Присваеваем новые картинки с кубиками
-        int eftNumber = getResources().getIdentifier(leftImage, "drawable", getPackageName());
-        int ightNumber = getResources().getIdentifier(rightImage, "drawable", getPackageName());
-        Log.d("myLog", "Идентификатор ресурса: " + mLeftNumber + " | " + mRightNumber);
-
-        mLeftDice.setImageResource(eftNumber);
-        mRightDice.setImageResource(ightNumber);*/
     }
 
     private void loadDiceImage(ImageView dice, int number, int view) {
