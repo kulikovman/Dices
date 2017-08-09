@@ -13,12 +13,18 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView mDiceLeft, mDiceRight;
-    private int mLeftImageId, mRightImageId;
+    private ImageView mLeftDice, mRightDice;
+
+    private int mLeftNumber = 1;
+    private int mLeftView = 1;
+    private int mRightNumber = 2;
+    private int mRightView = 2;
 
     public static final String PREFERENCES = "dice_settings";
-    public static final String LEFT_DICE_IMAGE = "left_dice_image";
-    public static final String RIGHT_DICE_IMAGE = "right_dice_image";
+    public static final String LEFT_DICE_NUMBER = "left_dice_number";
+    public static final String RIGHT_DICE_NUMBER = "right_dice_number";
+    public static final String LEFT_DICE_VIEW = "left_dice_view";
+    public static final String RIGHT_DICE_VIEW = "right_dice_view";
     private SharedPreferences mSettings;
 
     @Override
@@ -26,34 +32,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDiceRight = (ImageView) findViewById(R.id.dice_right);
-        mDiceLeft = (ImageView) findViewById(R.id.dice_left);
+        mRightDice = (ImageView) findViewById(R.id.dice_right);
+        mLeftDice = (ImageView) findViewById(R.id.dice_left);
 
-        // Получаем сохраненное состояние кубиков
+        // Получаем SharedPreferences
         mSettings = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        if (mSettings.contains(LEFT_DICE_IMAGE) && mSettings.contains(RIGHT_DICE_IMAGE)) {
-            // Значения по умолчанию
-            int leftDiceViewId = getResources().getIdentifier("dice_1_01", "drawable", getPackageName());
-            int rightDiceViewId = getResources().getIdentifier("dice_1_02", "drawable", getPackageName());
-            // Используем сохраненные значения (если ошибка, то значения по умолчанию)
-            mDiceLeft.setImageResource(mSettings.getInt(LEFT_DICE_IMAGE, leftDiceViewId));
-            mDiceRight.setImageResource(mSettings.getInt(RIGHT_DICE_IMAGE, rightDiceViewId));
+
+        // Если сохранено значение кубиков, по получаем его
+        if (mSettings.contains(LEFT_DICE_NUMBER) && mSettings.contains(RIGHT_DICE_NUMBER)) {
+            mLeftNumber = mSettings.getInt(LEFT_DICE_NUMBER, 1);
+            mRightNumber = mSettings.getInt(RIGHT_DICE_NUMBER, 1);
             Log.d("myLog", "Восстановили значения кубиков");
         }
+
+        // Если сохранен вид кубиков, то получаем его
+        if (mSettings.contains(LEFT_DICE_VIEW) && mSettings.contains(RIGHT_DICE_VIEW)) {
+            mLeftView = mSettings.getInt(LEFT_DICE_VIEW, 1);
+            mRightView = mSettings.getInt(RIGHT_DICE_VIEW, 1);
+            Log.d("myLog", "Восстановили вид кубиков");
+        }
+
+        // Загружаем картинки для кубиков
+        loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
+        loadDiceImage(mRightDice, mRightNumber, mRightView);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Если в переменных что-то есть, то сохраняем их в SharedPreferences
-        if (mLeftImageId != 0 && mRightImageId != 0) {
-            SharedPreferences.Editor editor = mSettings.edit();
-            editor.putInt(LEFT_DICE_IMAGE, mLeftImageId);
-            editor.putInt(RIGHT_DICE_IMAGE, mRightImageId);
-            editor.apply();
-            Log.d("myLog", "Сохранили значения кубиков: " + mLeftImageId + " | " + mRightImageId);
+        // Создаем SharedPreferences и если переменные не пустые, то сохраняем их
+        SharedPreferences.Editor editor = mSettings.edit();
+        if (mLeftNumber != 0 && mRightNumber != 0) {
+            editor.putInt(LEFT_DICE_NUMBER, mLeftNumber);
+            editor.putInt(RIGHT_DICE_NUMBER, mRightNumber);
         }
+        if (mLeftView != 0 && mRightView != 0) {
+            editor.putInt(LEFT_DICE_VIEW, mLeftView);
+            editor.putInt(RIGHT_DICE_VIEW, mRightView);
+        }
+        editor.apply();
+        Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
     }
 
     public void onClick(View view) {
@@ -61,24 +80,34 @@ public class MainActivity extends AppCompatActivity {
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.roll_dice);
         mediaPlayer.start();
 
-        // Получаем значение кубиков и номер картинки
+        // Получаем значение кубиков
         Random random = new Random();
-        int leftNumberInt = 1 + random.nextInt(6 - 1 + 1);
-        int rightNumberInt = 1 + random.nextInt(6 - 1 + 1);
+        mLeftNumber = 1 + random.nextInt(6);
+        mRightNumber = 1 + random.nextInt(6);
 
-        int leftViewInt = 1 + random.nextInt(7 - 1 + 1);
-        int rightViewInt;
+        // Получаем вид кубиков
+        int leftViewInt = mLeftView;
+        int rightViewInt = mRightView;
 
         do {
-            rightViewInt = 1 + random.nextInt(7 - 1 + 1);
-        } while (leftViewInt == rightViewInt);
-        Log.d("myLog", "Значения кубиков: " + leftNumberInt + "-" + leftViewInt + " | " + rightNumberInt + "-" + rightViewInt);
+            mLeftView = 1 + random.nextInt(7);
+        } while (mLeftView == leftViewInt);
 
-        // Переводим полученные значения в строки
-        String leftNumber = String.valueOf(leftNumberInt);
-        String rightNumber = String.valueOf(rightNumberInt);
-        String leftView = String.valueOf(leftViewInt);
-        String rightView = String.valueOf(rightViewInt);
+        do {
+            mRightView = 1 + random.nextInt(7);
+        } while (mRightView == mLeftView || mRightView == rightViewInt);
+        Log.d("myLog", "Значения кубиков: " + mLeftNumber + "-" + leftViewInt + " | " + mRightNumber + "-" + rightViewInt);
+
+        // Загружаем картинки для кубиков
+        loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
+        loadDiceImage(mRightDice, mRightNumber, mRightView);
+
+
+        /*// Переводим полученные значения в строки
+        String leftNumber = String.valueOf(mLeftNumber);
+        String rightNumber = String.valueOf(mRightNumber);
+        String leftView = String.valueOf(mLeftView);
+        String rightView = String.valueOf(mRightView);
 
         // Формируем имя картинки с кубиком - dice_1_01
         String leftImage = "dice_" + leftNumber + "_0" + leftView;
@@ -86,11 +115,26 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myLog", "Имя ресурса: " + leftImage + " | " + rightImage);
 
         // Присваеваем новые картинки с кубиками
-        mLeftImageId = getResources().getIdentifier(leftImage, "drawable", getPackageName());
-        mRightImageId = getResources().getIdentifier(rightImage, "drawable", getPackageName());
-        Log.d("myLog", "Идентификатор ресурса: " + mLeftImageId + " | " + mRightImageId);
+        int eftNumber = getResources().getIdentifier(leftImage, "drawable", getPackageName());
+        int ightNumber = getResources().getIdentifier(rightImage, "drawable", getPackageName());
+        Log.d("myLog", "Идентификатор ресурса: " + mLeftNumber + " | " + mRightNumber);
 
-        mDiceLeft.setImageResource(mLeftImageId);
-        mDiceRight.setImageResource(mRightImageId);
+        mLeftDice.setImageResource(eftNumber);
+        mRightDice.setImageResource(ightNumber);*/
+    }
+
+    private void loadDiceImage(ImageView dice, int number, int view) {
+        // Переводим значение кубика и его вид в строки
+        String diceNumber = String.valueOf(number);
+        String diceView = String.valueOf(view);
+
+        // Формируем имя картинки с кубиком - dice_1_01
+        String diceImage = "dice_" + diceNumber + "_0" + diceView;
+
+        // Получаем идентификатор картинки
+        int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
+
+        // Присваиваем ImageView новую картинку кубика
+        dice.setImageResource(diceImageId);
     }
 }
