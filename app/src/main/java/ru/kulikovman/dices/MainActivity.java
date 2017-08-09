@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             // Загружаем картинки кубиков
             loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
             loadDiceImage(mRightDice, mRightNumber, mRightView);
-            Log.d("myLog", "Восстановили значения кубиков");
+            Log.d("myLog", "Восстановили значения и вид кубиков");
         }
     }
 
@@ -60,13 +60,14 @@ public class MainActivity extends AppCompatActivity {
         if (mLeftNumber != 0 && mRightNumber != 0) {
             editor.putInt(LEFT_DICE_NUMBER, mLeftNumber);
             editor.putInt(RIGHT_DICE_NUMBER, mRightNumber);
+            Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
         }
         if (mLeftView != 0 && mRightView != 0) {
             editor.putInt(LEFT_DICE_VIEW, mLeftView);
             editor.putInt(RIGHT_DICE_VIEW, mRightView);
+            Log.d("myLog", "Сохранили вид кубиков: " + mLeftView + " | " + mRightView);
         }
         editor.apply();
-        Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
     }
 
     public void onClick(View view) {
