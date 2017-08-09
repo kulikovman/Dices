@@ -30,7 +30,7 @@
         android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="@+id/dice_left"
         app:layout_constraintLeft_toLeftOf="@+id/alignment_field"
-        app:srcCompat="@drawable/dice_2_02"/>
+        app:srcCompat="@drawable/dice_2_01"/>
 
     <ImageView
         android:id="@+id/dice_left"
@@ -43,6 +43,6 @@
         app:layout_constraintRight_toRightOf="@+id/alignment_field"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/dice_2_01"/>
+        app:srcCompat="@drawable/dice_1_02"/>
 
 </android.support.constraint.ConstraintLayout>

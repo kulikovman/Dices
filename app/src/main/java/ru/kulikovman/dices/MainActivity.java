@@ -14,11 +14,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mLeftDice, mRightDice;
-
-    private int mLeftNumber = 1;
-    private int mLeftView = 1;
-    private int mRightNumber = 2;
-    private int mRightView = 2;
+    private int mLeftNumber, mRightNumber, mLeftView, mRightView;
 
     public static final String PREFERENCES = "dice_settings";
     public static final String LEFT_DICE_NUMBER = "left_dice_number";
@@ -38,23 +34,21 @@ public class MainActivity extends AppCompatActivity {
         // Получаем SharedPreferences
         mSettings = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
-        // Если сохранено значение кубиков, по получаем его
-        if (mSettings.contains(LEFT_DICE_NUMBER) && mSettings.contains(RIGHT_DICE_NUMBER)) {
+        // Если сохранены значения и вид кубиков, по получаем их
+        if (mSettings.contains(LEFT_DICE_NUMBER) && mSettings.contains(RIGHT_DICE_NUMBER) &&
+                mSettings.contains(LEFT_DICE_VIEW) && mSettings.contains(RIGHT_DICE_VIEW)) {
+
+            // Восттанавливаем значения переменных
             mLeftNumber = mSettings.getInt(LEFT_DICE_NUMBER, 1);
             mRightNumber = mSettings.getInt(RIGHT_DICE_NUMBER, 1);
-            Log.d("myLog", "Восстановили значения кубиков");
-        }
-
-        // Если сохранен вид кубиков, то получаем его
-        if (mSettings.contains(LEFT_DICE_VIEW) && mSettings.contains(RIGHT_DICE_VIEW)) {
             mLeftView = mSettings.getInt(LEFT_DICE_VIEW, 1);
             mRightView = mSettings.getInt(RIGHT_DICE_VIEW, 1);
-            Log.d("myLog", "Восстановили вид кубиков");
-        }
 
-        // Загружаем картинки для кубиков
-        loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
-        loadDiceImage(mRightDice, mRightNumber, mRightView);
+            // Загружаем картинки кубиков
+            loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
+            loadDiceImage(mRightDice, mRightNumber, mRightView);
+            Log.d("myLog", "Восстановили значения кубиков");
+        }
     }
 
     @Override
@@ -96,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         do {
             mRightView = 1 + random.nextInt(7);
         } while (mRightView == mLeftView || mRightView == rightViewInt);
-        Log.d("myLog", "Значения кубиков: " + mLeftNumber + "-" + leftViewInt + " | " + mRightNumber + "-" + rightViewInt);
+        Log.d("myLog", "Значения кубиков: " + mLeftNumber + "-" + mLeftView + " | " + mRightNumber + "-" + mRightView);
 
         // Загружаем картинки для кубиков
         loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
