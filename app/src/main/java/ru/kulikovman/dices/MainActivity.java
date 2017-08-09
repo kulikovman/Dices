@@ -32,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
         // Получаем сохраненное состояние кубиков
         mSettings = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         if (mSettings.contains(LEFT_DICE_IMAGE) && mSettings.contains(RIGHT_DICE_IMAGE)) {
+            // Значения по умолчанию
             int leftDiceViewId = getResources().getIdentifier("dice_1_01", "drawable", getPackageName());
             int rightDiceViewId = getResources().getIdentifier("dice_1_02", "drawable", getPackageName());
+            // Используем сохраненные значения (если ошибка, то значения по умолчанию)
             mDiceLeft.setImageResource(mSettings.getInt(LEFT_DICE_IMAGE, leftDiceViewId));
             mDiceRight.setImageResource(mSettings.getInt(RIGHT_DICE_IMAGE, rightDiceViewId));
             Log.d("myLog", "Восстановили значения кубиков");
@@ -90,8 +92,5 @@ public class MainActivity extends AppCompatActivity {
 
         mDiceLeft.setImageResource(mLeftImageId);
         mDiceRight.setImageResource(mRightImageId);
-
-
-
     }
 }
