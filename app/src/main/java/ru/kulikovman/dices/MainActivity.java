@@ -2,6 +2,7 @@ package ru.kulikovman.dices;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+        // Воспроизводим звук бросания кубиков
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.roll_dice);
+        mediaPlayer.start();
+
         // Получаем значение кубиков и номер картинки
         Random random = new Random();
         int leftNumberInt = 1 + random.nextInt(6 - 1 + 1);
