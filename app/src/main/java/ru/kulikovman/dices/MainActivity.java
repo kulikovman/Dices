@@ -40,27 +40,28 @@ public class MainActivity extends AppCompatActivity {
         // Загружаем картинки кубиков
         loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
         loadDiceImage(mRightDice, mRightNumber, mRightView);
-        Log.d("myLog", "Загрузили картинки кубиков кубиков");
+        Log.d("myLog", "Загрузили картинки кубиков");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Сохраняем значения кубиков, если они не равны нулю
-        if (mLeftNumber != 0 && mRightNumber != 0 && mLeftView != 0 && mRightView != 0) {
-            mSharedPref = getPreferences(Context.MODE_PRIVATE);
+        // Сохраняем значения кубиков
+        // При первом запуске кубики получают значения по умолчанию
+        // поэтому не надо проверять на null
+        mSharedPref = getPreferences(Context.MODE_PRIVATE);
 
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putInt(getString(R.string.left_dice_number), mLeftNumber);
-            editor.putInt(getString(R.string.left_dice_view), mLeftView);
-            editor.putInt(getString(R.string.right_dice_number), mRightNumber);
-            editor.putInt(getString(R.string.right_dice_view), mRightView);
-            editor.apply();
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putInt(getString(R.string.left_dice_number), mLeftNumber);
+        editor.putInt(getString(R.string.left_dice_view), mLeftView);
+        editor.putInt(getString(R.string.right_dice_number), mRightNumber);
+        editor.putInt(getString(R.string.right_dice_view), mRightView);
+        editor.apply();
 
-            Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
-            Log.d("myLog", "Сохранили вид кубиков: " + mLeftView + " | " + mRightView);
-        }
+        Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
+        Log.d("myLog", "Сохранили вид кубиков: " + mLeftView + " | " + mRightView);
+
     }
 
     public void onClick(View view) {
