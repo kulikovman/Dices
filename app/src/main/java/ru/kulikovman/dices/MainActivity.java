@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView mLeftDice, mRightDice;
     private int mLeftNumber, mRightNumber, mLeftView, mRightView;
-
     private SharedPreferences mSharedPref;
 
     @Override
@@ -48,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         // Сохраняем значения кубиков
-        // При первом запуске кубики получают значения по умолчанию
-        // поэтому не надо проверять на null
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
-
         SharedPreferences.Editor editor = mSharedPref.edit();
         editor.putInt(getString(R.string.left_dice_number), mLeftNumber);
         editor.putInt(getString(R.string.left_dice_view), mLeftView);
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         do {
             mRightView = 1 + random.nextInt(7);
         } while (mRightView == mLeftView || mRightView == rightViewInt);
-        //Log.d("myLog", "Значения кубиков: " + mLeftNumber + "-" + mLeftView + " | " + mRightNumber + "-" + mRightView);
+        Log.d("myLog", "Значения кубиков: " + mLeftNumber + "-" + mLeftView + " | " + mRightNumber + "-" + mRightView);
 
         // Загружаем картинки для кубиков
         loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
