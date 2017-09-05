@@ -2,11 +2,14 @@ package ru.kulikovman.dices;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,10 +21,15 @@ public class MainActivity extends AppCompatActivity {
     private int mLeftNumber, mRightNumber, mLeftView, mRightView;
     private SharedPreferences mSharedPref;
 
+    private SoundPool mSoundPool;
+    private int mRollDiceSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("myLog", "Запущен onCreate");
 
         // Инициализируем наши ImageView с кубиками
         mRightDice = (ImageView) findViewById(R.id.dice_right);
@@ -40,11 +48,16 @@ public class MainActivity extends AppCompatActivity {
         loadDiceImage(mLeftDice, mLeftNumber, mLeftView);
         loadDiceImage(mRightDice, mRightNumber, mRightView);
         Log.d("myLog", "Загрузили картинки кубиков");
+
+        // Создаем SoundPool
+        createSoundPool();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        Log.d("myLog", "Запущен onPause");
 
         // Сохраняем значения кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -58,12 +71,61 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myLog", "Сохранили значения кубиков: " + mLeftNumber + " | " + mRightNumber);
         Log.d("myLog", "Сохранили вид кубиков: " + mLeftView + " | " + mRightView);
 
+        // Очищаем SoundPool
+        clearSoundPool();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("myLog", "Запущен onResume");
+
+        // Создаем SoundPool
+        createSoundPool();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void createSoundPool() {
+        if (mSoundPool == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Создаем SoundPool для Android API 21 и выше
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
+
+                mSoundPool = new SoundPool.Builder()
+                        .setAudioAttributes(attributes)
+                        .build();
+            } else {
+                // Создаем SoundPool для старых версий Android
+                mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+            }
+
+            Log.d("myLog", "Создали SoundPool");
+
+            // Получаем id звуковых файлов
+            loadIdSounds();
+        }
+    }
+
+    private void loadIdSounds() {
+        mRollDiceSound = mSoundPool.load(this, R.raw.roll_dice, 1);
+
+        Log.d("myLog", "Получили id звуковых файлов");
+    }
+
+    private void clearSoundPool() {
+        mSoundPool.release();
+        mSoundPool = null;
+
+        Log.d("myLog", "SoundPool очищен");
     }
 
     public void onClick(View view) {
         // Воспроизводим звук бросания кубиков
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.roll_dice);
-        mediaPlayer.start();
+        mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
 
         // Получаем значение кубиков
         Random random = new Random();
@@ -71,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         mRightNumber = 1 + random.nextInt(6);
 
         // Получаем вид кубиков
-        // Вид кубика не должен совпадать с предыдущим видом
-        // Вид правого кубика не должен совпадать с видом левого кубика
+        // - вид кубика не должен совпадать с предыдущим видом
+        // - вид правого кубика не должен совпадать с видом левого кубика
         int leftViewInt = mLeftView;
         int rightViewInt = mRightView;
 
