@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myLog", "Запущен onCreate");
 
         // Инициализируем наши ImageView с кубиками
-        mRightDice = (ImageView) findViewById(R.id.dice_right);
-        mLeftDice = (ImageView) findViewById(R.id.dice_left);
+        mRightDice = findViewById(R.id.dice_right);
+        mLeftDice = findViewById(R.id.dice_left);
 
         // Получаем SharedPreferences
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
