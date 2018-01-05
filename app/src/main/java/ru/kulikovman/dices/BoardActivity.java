@@ -11,7 +11,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import ru.kulikovman.dices.models.Dice;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -47,13 +51,49 @@ public class BoardActivity extends AppCompatActivity {
 
         Log.d("log", "Размер: " + mWidth + " x " + mHeight);
 
-        moveToRandomPosition(mDice1);
+        //moveToRandomPosition(mDice1);
 
         dropDices();
     }
 
     private void dropDices() {
+        List<Dice> coordinates = new ArrayList<>();
+        Random random = new Random();
 
+        for (int i = 0; i < 4; i++) {
+            int x = 1 + random.nextInt(mWidth);
+            int y = 1 + random.nextInt(mHeight);
+
+            Log.d("log", "Координаты: " + x + " x " + y);
+
+            coordinates.add(new Dice(x, y));
+        }
+
+        if (!isIntersection(coordinates)) {
+
+        }
+
+
+
+    }
+
+    private boolean isIntersection(List<Dice> coordinates) {
+        // Расстояние между центрами кубиков
+        int dist = convertDpToPx(140);
+
+        // Проверка пересечений
+        for (Dice d1 : coordinates) {
+            for (Dice d2 : coordinates) {
+                int dX = Math.abs(d1.getX() - d2.getX());
+                int dY = Math.abs(d1.getY() - d2.getY());
+
+                if (dX < dist || dY < dist) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void moveToRandomPosition(ImageView dice) {
