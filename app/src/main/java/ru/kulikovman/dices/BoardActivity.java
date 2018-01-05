@@ -1,5 +1,6 @@
 package ru.kulikovman.dices;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -49,46 +50,89 @@ public class BoardActivity extends AppCompatActivity {
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100);
 
-        Log.d("log", "Размер: " + mWidth + " x " + mHeight);
+        /*Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
+        Log.d("log", "140dp = : " + convertDpToPx(140) + "px");
+        Log.d("log", "240dp = : " + convertDpToPx(240) + "px");
+        Log.d("log", "350dp = : " + convertDpToPx(350) + "px");*/
+
 
         //moveToRandomPosition(mDice1);
 
-        dropDices();
+        dropDices(4);
     }
 
-    private void dropDices() {
+    /*public int convertDpToPx(int valueInDp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp,
+                getResources().getDisplayMetrics());
+    }*/
+
+    public int getPixelsFromDPs(int dp) {
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics()));
+
+    }
+
+    private int convertDpToPx(int dp) {
+        return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+
+    }
+
+    private int convertPxToDp(int px) {
+        return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+
+    private void dropDices(int number) {
         List<Dice> coordinates = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; i < 4; i++) {
-            int x = 1 + random.nextInt(mWidth);
-            int y = 1 + random.nextInt(mHeight);
+        int counter = 0;
+        boolean intersection = true;
 
-            Log.d("log", "Координаты: " + x + " x " + y);
+        while (intersection) {
+            for (int i = 0; i < number; i++) {
+                int x = random.nextInt(666);
+                int y = random.nextInt(1211);
+                coordinates.add(new Dice(x, y));
+            }
 
-            coordinates.add(new Dice(x, y));
+            counter++;
+            if (counter % 1000 == 0) {
+                Log.d("log", "Счетчик: " + counter);
+            }
+
+            if (isIntersection(coordinates)) {
+                coordinates.clear();
+            } else {
+                intersection = false;
+            }
         }
 
-        if (!isIntersection(coordinates)) {
-
+        for (Dice dice : coordinates) {
+            Log.d("log", "Координаты: " + dice.getX() + " - " + dice.getY());
         }
 
-
+        moveDice(mDice1, coordinates.get(0).getX(), coordinates.get(0).getY());
+        moveDice(mDice2, coordinates.get(1).getX(), coordinates.get(1).getY());
+        moveDice(mDice3, coordinates.get(2).getX(), coordinates.get(2).getY());
+        moveDice(mDice4, coordinates.get(3).getX(), coordinates.get(3).getY());
 
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
         // Расстояние между центрами кубиков
-        int dist = convertDpToPx(140);
+        int dist = convertDpToPx(130);
 
         // Проверка пересечений
         for (Dice d1 : coordinates) {
             for (Dice d2 : coordinates) {
-                int dX = Math.abs(d1.getX() - d2.getX());
-                int dY = Math.abs(d1.getY() - d2.getY());
+                if (!d1.equals(d2)) {
+                    int dX = Math.abs(d1.getX() - d2.getX());
+                    int dY = Math.abs(d1.getY() - d2.getY());
 
-                if (dX < dist || dY < dist) {
-                    return true;
+                    if (dX < dist && dY < dist) {
+                        return true;
+                    }
                 }
             }
         }
@@ -104,36 +148,21 @@ public class BoardActivity extends AppCompatActivity {
 
         Log.d("log", "Координаты: " + mX + " x " + mY);
 
-        setMargin(dice, mX, mY);
+        moveDice(dice, mX, mY);
     }
 
-    public int convertDpToPx(int valueInDp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp,
-                getResources().getDisplayMetrics());
-    }
 
-    private void setMargin(View view, int x, int y) {
+    private void moveDice(View view, int x, int y) {
         MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
         params.topMargin = y;
         params.leftMargin = x;
         view.setLayoutParams(params);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.d("log", "Запущен onResume в BoardActivity");
-
-        /*mWidth = mBoard.getWidth();
-        mHeight = mBoard.getHeight();
-
-        Log.d("log", "Размер: " + mWidth + " x " + mHeight);*/
+        view.invalidate();
+        view.requestLayout();
     }
 
     public void dropDice(View view) {
-        moveToRandomPosition(mDice1);
+        dropDices(4);
     }
 
     /*public void selectNumberCubes(View view) {
