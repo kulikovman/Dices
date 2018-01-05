@@ -36,8 +36,10 @@ public class BoardActivity extends AppCompatActivity {
                 mFlipper.setDisplayedChild(1);
                 break;
             case R.id.button_3:
+                mFlipper.setDisplayedChild(2);
                 break;
             case R.id.button_4:
+                mFlipper.setDisplayedChild(3);
                 break;
         }
     }

@@ -56,6 +56,14 @@
             android:id="@+id/box_2"
             layout="@layout/dice_two"/>
 
+        <include
+            android:id="@+id/box_2"
+            layout="@layout/dice_three"/>
+
+        <include
+            android:id="@+id/box_2"
+            layout="@layout/dice_four"/>
+
     </ViewFlipper>
 
 </android.support.constraint.ConstraintLayout>
