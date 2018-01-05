@@ -1,26 +1,25 @@
 package ru.kulikovman.dices;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.Random;
 
 public class BoardActivity extends AppCompatActivity {
 
-    //private ViewFlipper mFlipper;
-    //private Button mButton1, mButton2, mButton3, mButton4;
-    private LinearLayout mBoard;
-    private ImageView mDiceOne;
-    private int mWidth, mHeight, mX, mY;
+    private Button mButton1, mButton2, mButton3, mButton4;
+    private FrameLayout mBoard;
+    private ImageView mDice1, mDice2, mDice3, mDice4;
+    private int mWidth, mHeight;
+    private int mX, mY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +28,31 @@ public class BoardActivity extends AppCompatActivity {
 
         Log.d("log", "Запущен onCreate в BoardActivity");
 
-        //mFlipper = findViewById(R.id.cubes_container);
-        /*mButton1 = findViewById(R.id.button_1);
+        // Инициализируем вью элементы
+        mBoard = findViewById(R.id.board);
+        mButton1 = findViewById(R.id.button_1);
         mButton2 = findViewById(R.id.button_2);
         mButton3 = findViewById(R.id.button_3);
-        mButton4 = findViewById(R.id.button_4);*/
+        mButton4 = findViewById(R.id.button_4);
+        mDice1 = findViewById(R.id.dice_1);
+        mDice2 = findViewById(R.id.dice_2);
+        mDice3 = findViewById(R.id.dice_3);
+        mDice4 = findViewById(R.id.dice_4);
 
-        mBoard = findViewById(R.id.board);
-        mDiceOne = findViewById(R.id.dice_1);
-
-
-
+        // Получаем границы поля для кубиков
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100);
 
-        moveToRandomPosition(mDiceOne);
-
         Log.d("log", "Размер: " + mWidth + " x " + mHeight);
 
+        moveToRandomPosition(mDice1);
+
+        dropDices();
+    }
+
+    private void dropDices() {
 
     }
 
@@ -89,7 +93,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void dropDice(View view) {
-        moveToRandomPosition(mDiceOne);
+        moveToRandomPosition(mDice1);
     }
 
     /*public void selectNumberCubes(View view) {
