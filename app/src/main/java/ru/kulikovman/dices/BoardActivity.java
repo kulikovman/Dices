@@ -26,15 +26,13 @@ public class BoardActivity extends AppCompatActivity {
 
     public void selectNumberCubes(View view) {
         int id = view.getId();
+        selectButton(view);
 
         switch (id) {
             case R.id.button_1:
-                pressButton(view);
                 mFlipper.setDisplayedChild(0);
                 break;
             case R.id.button_2:
-                pressButton(view);
-                mButton2.setPressed(true);
                 mFlipper.setDisplayedChild(1);
                 break;
             case R.id.button_3:
@@ -44,13 +42,13 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void pressButton(View view) {
-        mButton1.setPressed(false);
-        mButton2.setPressed(false);
-        mButton3.setPressed(false);
-        mButton4.setPressed(false);
+    private void selectButton(View view) {
+        mButton1.setSelected(false);
+        mButton2.setSelected(false);
+        mButton3.setSelected(false);
+        mButton4.setSelected(false);
 
-        //view.setPressed(true);
+        view.setSelected(true);
     }
 
 
