@@ -38,7 +38,7 @@
 
 
     <!-- Место для кубиков -->
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/board"
         android:onClick="dropDice"
         android:layout_width="match_parent"
@@ -48,10 +48,26 @@
             android:id="@+id/dice_1"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            app:srcCompat="@drawable/dice_1_02"/>
+            app:srcCompat="@drawable/dice_1_01"/>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/dice_2"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/dice_2_02"/>
+
+        <ImageView
+            android:id="@+id/dice_3"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/dice_3_03"/>
+
+        <ImageView
+            android:id="@+id/dice_4"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/dice_4_04"/>
+
+    </FrameLayout>
 
 </LinearLayout>
