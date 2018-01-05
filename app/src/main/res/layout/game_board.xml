@@ -11,7 +11,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/one_dice"
+            android:id="@+id/button_1"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_margin="@dimen/button_margin"
@@ -22,7 +22,7 @@
             android:textSize="@dimen/button_text_size"/>
 
         <Button
-            android:id="@+id/two_dices"
+            android:id="@+id/button_2"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_margin="@dimen/button_margin"
@@ -33,7 +33,7 @@
             android:textSize="@dimen/button_text_size"/>
 
         <Button
-            android:id="@+id/three_dices"
+            android:id="@+id/button_3"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_margin="@dimen/button_margin"
@@ -44,7 +44,7 @@
             android:textSize="@dimen/button_text_size"/>
 
         <Button
-            android:id="@+id/four_dices"
+            android:id="@+id/button_4"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_margin="@dimen/button_margin"

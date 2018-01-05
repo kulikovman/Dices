@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Кнопки -->
+    <style name="ButtonStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/button_size</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+        <item name="android:layout_margin">@dimen/button_margin</item>
+        <item name="android:background">@drawable/number_button</item>
+        <item name="android:fontFamily">@string/font_family_thin</item>
+        <item name="android:onClick">selectNumberCubes</item>
+        <item name="android:textColor">@drawable/button_text_color</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
 </resources>
