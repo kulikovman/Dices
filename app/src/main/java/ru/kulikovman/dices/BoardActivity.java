@@ -1,5 +1,9 @@
 package ru.kulikovman.dices;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +25,13 @@ public class BoardActivity extends AppCompatActivity {
         mButton2 = findViewById(R.id.button_2);
         mButton3 = findViewById(R.id.button_3);
         mButton4 = findViewById(R.id.button_4);
+
+        Canvas canvas = new Canvas();
+        Paint paint = new Paint();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dice_1_01);
+
+        canvas.drawBitmap(bitmap, 100, 100, paint);
+
     }
 
 

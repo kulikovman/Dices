@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_2"
+    android:orientation="vertical">
 
-    <!-- Место для кнопок -->
+
+    <!-- Кнопки -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -12,57 +16,40 @@
 
         <Button
             android:id="@+id/button_1"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:background="@drawable/button_color"
-            android:fontFamily="@string/font_family_thin"
-            android:text="1"
-            android:textColor="@color/gray_10"
-            android:textSize="@dimen/button_text_size"/>
+            style="@style/ButtonStyle"
+            android:text="@string/button_1_text"/>
 
         <Button
             android:id="@+id/button_2"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:background="@drawable/button_color"
-            android:fontFamily="@string/font_family_thin"
-            android:text="2"
-            android:textColor="@color/gray_10"
-            android:textSize="@dimen/button_text_size"/>
+            style="@style/ButtonStyle"
+            android:text="@string/button_2_text"/>
 
         <Button
             android:id="@+id/button_3"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:background="@drawable/button_color"
-            android:fontFamily="@string/font_family_thin"
-            android:text="3"
-            android:textColor="@color/gray_10"
-            android:textSize="@dimen/button_text_size"/>
+            style="@style/ButtonStyle"
+            android:text="@string/button_3_text"/>
 
         <Button
             android:id="@+id/button_4"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_margin="@dimen/button_margin"
-            android:background="@drawable/button_color"
-            android:fontFamily="@string/font_family_thin"
-            android:text="4"
-            android:textColor="@color/gray_10"
-            android:textSize="@dimen/button_text_size"/>
+            style="@style/ButtonStyle"
+            android:text="@string/button_4_text"/>
 
     </LinearLayout>
 
-    <!-- Блок с кубиками -->
 
-
-    <fragment
+    <!-- Место для кубиков -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </fragment>
+        <ImageView
+            android:id="@+id/one_1"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            app:srcCompat="@drawable/dice_1_02"/>
+
+    </LinearLayout>
 
 </LinearLayout>
