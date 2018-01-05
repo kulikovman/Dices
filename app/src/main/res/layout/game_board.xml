@@ -39,11 +39,13 @@
 
     <!-- Место для кубиков -->
     <LinearLayout
+        android:id="@+id/board"
+        android:onClick="dropDice"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/one_1"
+            android:id="@+id/dice_1"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginStart="0dp"
