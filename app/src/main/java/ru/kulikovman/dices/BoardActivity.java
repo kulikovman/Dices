@@ -70,6 +70,7 @@ public class BoardActivity extends AppCompatActivity {
         // Готовим доску и кидаем кубики
         selectButton(mNumberOfDice);
         prepareBoard(mNumberOfDice);
+        dropDices(false);
     }
 
     @Override
@@ -100,15 +101,13 @@ public class BoardActivity extends AppCompatActivity {
         createSoundPool();
     }
 
-    private void dropDices(int number, boolean sound) {
+    private void dropDices(boolean sound) {
         List<Dice> dices = new ArrayList<>();
         Random random = new Random();
 
-        int counter = 0;
         boolean intersection = true;
-
         while (intersection) {
-            for (int i = 0; i < number; i++) {
+            for (int i = 0; i < 4; i++) {
                 // Генерируем координаты и сторону кубика
                 int x = random.nextInt(mWidth);
                 int y = random.nextInt(mHeight);
@@ -132,11 +131,6 @@ public class BoardActivity extends AppCompatActivity {
                 dices.add(new Dice(x, y, diceNumber, diceView));
             }
 
-            counter++;
-            if (counter % 1000 == 0) {
-                Log.d("log", "Счетчик: " + counter);
-            }
-
             // Если есть пересечения, то начинаем заново
             if (isIntersection(dices)) {
                 dices.clear();
@@ -155,28 +149,26 @@ public class BoardActivity extends AppCompatActivity {
             mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
         }
 
-        // Размещаем кубики на поле
+        // Размещаем на поле первый кубик
         Dice dice = dices.get(0);
         moveDice(mDice1, dice.getX(), dice.getY());
         loadDiceImage(mDice1, dice.getNumber(), dice.getView());
 
-        if (number >= 2) {
-            dice = dices.get(1);
-            moveDice(mDice2, dice.getX(), dice.getY());
-            loadDiceImage(mDice2, dice.getNumber(), dice.getView());
-        }
+        // Второй кубик
+        dice = dices.get(1);
+        moveDice(mDice2, dice.getX(), dice.getY());
+        loadDiceImage(mDice2, dice.getNumber(), dice.getView());
 
-        if (number >= 3) {
-            dice = dices.get(2);
-            moveDice(mDice3, dice.getX(), dice.getY());
-            loadDiceImage(mDice3, dice.getNumber(), dice.getView());
-        }
+        // Третий кубик
+        dice = dices.get(2);
+        moveDice(mDice3, dice.getX(), dice.getY());
+        loadDiceImage(mDice3, dice.getNumber(), dice.getView());
 
-        if (number >= 4) {
-            dice = dices.get(3);
-            moveDice(mDice4, dice.getX(), dice.getY());
-            loadDiceImage(mDice4, dice.getNumber(), dice.getView());
-        }
+        // Четвертый кубик
+        dice = dices.get(3);
+        moveDice(mDice4, dice.getX(), dice.getY());
+        loadDiceImage(mDice4, dice.getNumber(), dice.getView());
+
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
@@ -218,7 +210,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void clickOnBoard(View view) {
-        dropDices(mNumberOfDice, true);
+        dropDices(true);
     }
 
     public int getStatusBarHeight() {
@@ -246,7 +238,7 @@ public class BoardActivity extends AppCompatActivity {
         mDice3.setVisibility(View.INVISIBLE);
         mDice4.setVisibility(View.INVISIBLE);
 
-        // Потом показываем нужное количество
+        // Потом показываем нужное количество кубиков
         if (number >= 2) {
             mDice2.setVisibility(View.VISIBLE);
         }
@@ -258,9 +250,6 @@ public class BoardActivity extends AppCompatActivity {
         if (number >= 4) {
             mDice4.setVisibility(View.VISIBLE);
         }
-
-        // Переброс кубиков
-        dropDices(mNumberOfDice, false);
     }
 
     public void selectNumberCubes(View view) {
