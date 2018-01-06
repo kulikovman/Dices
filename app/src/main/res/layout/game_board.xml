@@ -46,6 +46,8 @@
 
         <ImageView
             android:id="@+id/dice_1"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_width="140dp"
             android:layout_height="140dp"
             app:srcCompat="@drawable/dice_1_01"/>
@@ -54,18 +56,24 @@
             android:id="@+id/dice_2"
             android:layout_width="140dp"
             android:layout_height="140dp"
+            android:layout_marginStart="170dp"
+            android:layout_marginTop="50dp"
             app:srcCompat="@drawable/dice_2_02"/>
 
         <ImageView
             android:id="@+id/dice_3"
             android:layout_width="140dp"
             android:layout_height="140dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="200dp"
             app:srcCompat="@drawable/dice_3_03"/>
 
         <ImageView
             android:id="@+id/dice_4"
             android:layout_width="140dp"
             android:layout_height="140dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="300dp"
             app:srcCompat="@drawable/dice_4_04"/>
 
     </FrameLayout>
