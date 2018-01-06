@@ -1,6 +1,12 @@
 package ru.kulikovman.dices;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,6 +30,12 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
+    private int mNumberOfDice;
+
+    private SharedPreferences mSharedPref;
+    private SoundPool mSoundPool;
+    private int mRollDiceSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +54,21 @@ public class BoardActivity extends AppCompatActivity {
         mDice3 = findViewById(R.id.dice_3);
         mDice4 = findViewById(R.id.dice_4);
 
+        // Получаем SharedPreferences и восстанавливаем количество кубиков
+        mSharedPref = getPreferences(Context.MODE_PRIVATE);
+        mNumberOfDice = mSharedPref.getInt(getString(R.string.number_of_dice), 1);
+
+        // Создаем SoundPool
+        createSoundPool();
+
         // Получение границ координат для размещения кубиков
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
+
+
+
 
         // Тестирование
         /*Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
@@ -58,6 +80,34 @@ public class BoardActivity extends AppCompatActivity {
 
 
         dropDices(4);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("myLog", "Запущен onPause");
+
+        // Сохраняем количество кубиков
+        mSharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putInt(getString(R.string.number_of_dice), mNumberOfDice);
+        editor.apply();
+
+        Log.d("myLog", "Сохранили количество кубиков: " + mNumberOfDice);
+
+        // Очищаем SoundPool
+        clearSoundPool();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("myLog", "Запущен onResume");
+
+        // Создаем SoundPool
+        createSoundPool();
     }
 
     private void dropDices(int number) {
@@ -110,6 +160,9 @@ public class BoardActivity extends AppCompatActivity {
                     " | " + dice.getNumber() + " - " + dice.getView());
         }
 
+        // Воспроизводим звук бросания кубиков
+        mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
+
         // Размещаем кубики на поле
         Dice dice = dices.get(0);
         moveDice(mDice1, dice.getX(), dice.getY());
@@ -134,17 +187,6 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void loadDiceImage(ImageView dice, int number, int view) {
-        // Формируем имя картинки с кубиком - dice_1_01
-        String diceNumber = String.valueOf(number);
-        String diceView = String.valueOf(view);
-        String diceImage = "dice_" + diceNumber + "_0" + diceView;
-
-        // Получаем идентификатор и присваиваем картинку
-        int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
-        dice.setImageResource(diceImageId);
-    }
-
     private boolean isIntersection(List<Dice> coordinates) {
         // Расстояние между центрами кубиков
         int dist = convertDpToPx(130);
@@ -164,7 +206,19 @@ public class BoardActivity extends AppCompatActivity {
         return false;
     }
 
+    private void loadDiceImage(ImageView dice, int number, int view) {
+        // Формируем имя картинки с кубиком - dice_1_01
+        String diceNumber = String.valueOf(number);
+        String diceView = String.valueOf(view);
+        String diceImage = "dice_" + diceNumber + "_0" + diceView;
+
+        // Получаем идентификатор и присваиваем картинку
+        int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
+        dice.setImageResource(diceImageId);
+    }
+
     private void moveDice(View view, int x, int y) {
+        // Установка отступов слева и сверху
         MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
         params.leftMargin = x;
         params.topMargin = y;
@@ -194,34 +248,59 @@ public class BoardActivity extends AppCompatActivity {
         return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    /*public void selectNumberCubes(View view) {
+    public void selectNumberCubes(View view) {
         int id = view.getId();
         selectButton(view);
 
-        switch (id) {
-            case R.id.button_1:
-                mFlipper.setDisplayedChild(0);
-                break;
-            case R.id.button_2:
-                mFlipper.setDisplayedChild(1);
-                break;
-            case R.id.button_3:
-                mFlipper.setDisplayedChild(2);
-                break;
-            case R.id.button_4:
-                mFlipper.setDisplayedChild(3);
-                break;
-        }
-    }*/
 
-    /*private void selectButton(View view) {
+    }
+
+    private void selectButton(View view) {
+        // Снимаем выделение кнопок
         mButton1.setSelected(false);
         mButton2.setSelected(false);
         mButton3.setSelected(false);
         mButton4.setSelected(false);
 
+        // Выделяем кнопку
         view.setSelected(true);
-    }*/
+    }
 
+    @SuppressWarnings("deprecation")
+    private void createSoundPool() {
+        if (mSoundPool == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Создаем SoundPool для Android API 21 и выше
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
 
+                mSoundPool = new SoundPool.Builder()
+                        .setAudioAttributes(attributes)
+                        .build();
+            } else {
+                // Создаем SoundPool для старых версий Android
+                mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+            }
+
+            Log.d("myLog", "Создали SoundPool");
+
+            // Получаем id звуковых файлов
+            loadIdSounds();
+        }
+    }
+
+    private void loadIdSounds() {
+        mRollDiceSound = mSoundPool.load(this, R.raw.roll_dice, 1);
+
+        Log.d("myLog", "Получили id звуковых файлов");
+    }
+
+    private void clearSoundPool() {
+        mSoundPool.release();
+        mSoundPool = null;
+
+        Log.d("myLog", "SoundPool очищен");
+    }
 }
