@@ -5,5 +5,7 @@
     <dimen name="button_margin">5dp</dimen>
     <dimen name="button_text_size">18sp</dimen>
 
+    <!-- Кубики -->
+    <dimen name="dice_size">140dp</dimen>
 
 </resources>

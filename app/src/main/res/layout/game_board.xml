@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gray_2"
     android:orientation="vertical">
 
@@ -40,38 +40,38 @@
     <!-- Место для кубиков -->
     <FrameLayout
         android:id="@+id/board"
-        android:onClick="clickOnBoard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="clickOnBoard">
 
         <ImageView
             android:id="@+id/dice_1"
+            android:layout_width="@dimen/dice_size"
+            android:layout_height="@dimen/dice_size"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
             app:srcCompat="@drawable/dice_1_01"/>
 
         <ImageView
             android:id="@+id/dice_2"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="@dimen/dice_size"
+            android:layout_height="@dimen/dice_size"
             android:layout_marginStart="170dp"
             android:layout_marginTop="50dp"
             app:srcCompat="@drawable/dice_2_02"/>
 
         <ImageView
             android:id="@+id/dice_3"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="@dimen/dice_size"
+            android:layout_height="@dimen/dice_size"
             android:layout_marginStart="50dp"
             android:layout_marginTop="200dp"
             app:srcCompat="@drawable/dice_3_03"/>
 
         <ImageView
             android:id="@+id/dice_4"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="@dimen/dice_size"
+            android:layout_height="@dimen/dice_size"
             android:layout_marginStart="200dp"
             android:layout_marginTop="300dp"
             app:srcCompat="@drawable/dice_4_04"/>
