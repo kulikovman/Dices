@@ -44,32 +44,24 @@ public class BoardActivity extends AppCompatActivity {
         mDice3 = findViewById(R.id.dice_3);
         mDice4 = findViewById(R.id.dice_4);
 
-        // Получаем границы поля для кубиков
+        // Получение границ координат для размещения кубиков
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
-        mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100);
+        mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
 
-        /*Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
+        // Тестирование
+        Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
+        Log.d("log", "status bar: " + getStatusBarHeight() + "px");
         Log.d("log", "140dp = : " + convertDpToPx(140) + "px");
         Log.d("log", "240dp = : " + convertDpToPx(240) + "px");
-        Log.d("log", "350dp = : " + convertDpToPx(350) + "px");*/
+        Log.d("log", "350dp = : " + convertDpToPx(350) + "px");
+        Log.d("log", "326dp = : " + convertDpToPx(326) + "px");
 
 
-        //moveToRandomPosition(mDice1);
+
 
         dropDices(4);
-    }
-
-    /*public int convertDpToPx(int valueInDp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp,
-                getResources().getDisplayMetrics());
-    }*/
-
-    public int getPixelsFromDPs(int dp) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics()));
-
     }
 
     private int convertDpToPx(int dp) {
@@ -91,8 +83,8 @@ public class BoardActivity extends AppCompatActivity {
 
         while (intersection) {
             for (int i = 0; i < number; i++) {
-                int x = random.nextInt(666);
-                int y = random.nextInt(1211);
+                int x = random.nextInt(mWidth);
+                int y = random.nextInt(mHeight);
                 coordinates.add(new Dice(x, y));
             }
 
@@ -153,16 +145,33 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void moveDice(View view, int x, int y) {
+        // Способ 1
         MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
-        params.topMargin = y;
         params.leftMargin = x;
+        params.topMargin = y;
         view.setLayoutParams(params);
-        view.invalidate();
-        view.requestLayout();
+        //view.invalidate();
+        //view.requestLayout();
+
+        // Способ 2
+        /*FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(x, y, 0, 0); //substitute parameters for left, top, right, bottom
+        view.setLayoutParams(params);*/
     }
 
     public void dropDice(View view) {
         dropDices(4);
+    }
+
+    public int getStatusBarHeight() {
+        // Получение высоты статус-бара
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return statusBarHeight;
     }
 
     /*public void selectNumberCubes(View view) {
