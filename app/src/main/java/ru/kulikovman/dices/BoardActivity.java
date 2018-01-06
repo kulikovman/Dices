@@ -30,7 +30,7 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
-    private int mNumberOfDice;
+    private int mNumber;
 
     private SharedPreferences mSharedPref;
     private SoundPool mSoundPool;
@@ -56,7 +56,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // Получаем SharedPreferences и восстанавливаем количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
-        mNumberOfDice = mSharedPref.getInt(getString(R.string.number_of_dice), 1);
+        mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 1);
 
         // Создаем SoundPool
         createSoundPool();
@@ -68,24 +68,21 @@ public class BoardActivity extends AppCompatActivity {
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
 
         // Готовим доску и кидаем кубики
-        selectButton(mNumberOfDice);
-        prepareBoard(mNumberOfDice);
+        selectButton(mNumber);
+        prepareBoard(mNumber);
         dropDices(false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         Log.d("myLog", "Запущен onPause");
 
         // Сохраняем количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSharedPref.edit();
-        editor.putInt(getString(R.string.number_of_dice), mNumberOfDice);
+        editor.putInt(getString(R.string.number_of_dice), mNumber);
         editor.apply();
-
-        Log.d("myLog", "Сохранили количество кубиков: " + mNumberOfDice);
 
         // Очищаем SoundPool
         clearSoundPool();
@@ -94,7 +91,6 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         Log.d("myLog", "Запущен onResume");
 
         // Создаем SoundPool
@@ -209,10 +205,6 @@ public class BoardActivity extends AppCompatActivity {
         view.setLayoutParams(params);
     }
 
-    public void clickOnBoard(View view) {
-        dropDices(true);
-    }
-
     public int getStatusBarHeight() {
         // Получение высоты статус-бара
         int statusBarHeight = 0;
@@ -223,22 +215,13 @@ public class BoardActivity extends AppCompatActivity {
         return statusBarHeight;
     }
 
-    private int convertDpToPx(int dp) {
-        return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
-
-    }
-
-    private int convertPxToDp(int px) {
-        return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
     private void prepareBoard(int number) {
         // Сначала скрываем все кубики
         mDice2.setVisibility(View.INVISIBLE);
         mDice3.setVisibility(View.INVISIBLE);
         mDice4.setVisibility(View.INVISIBLE);
 
-        // Потом показываем нужное количество кубиков
+        // Показываем нужное количество кубиков
         if (number >= 2) {
             mDice2.setVisibility(View.VISIBLE);
         }
@@ -252,29 +235,28 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
+    public void clickOnBoard(View view) {
+        dropDices(true);
+    }
+
     public void selectNumberCubes(View view) {
         // Получаем номер кнопки
         Button button = (Button) view;
-        mNumberOfDice = Integer.parseInt(button.getText().toString());
+        mNumber = Integer.parseInt(button.getText().toString());
 
         // Выделяем кнопку и готовим доску
         selectButton(button);
-        prepareBoard(mNumberOfDice);
+        prepareBoard(mNumber);
     }
 
     private void selectButton(Button button) {
-        // Снимаем выделение кнопок
         clearButtonSelection();
-
-        // Выделяем нужную кнопку
         button.setSelected(true);
     }
 
     private void selectButton(int number) {
-        // Снимаем выделение кнопок
         clearButtonSelection();
 
-        // Выделяем нужную кнопку
         if (number == 1) {
             mButton1.setSelected(true);
         } else if (number == 2) {
@@ -329,5 +311,14 @@ public class BoardActivity extends AppCompatActivity {
         mSoundPool = null;
 
         Log.d("myLog", "SoundPool очищен");
+    }
+
+    private int convertDpToPx(int dp) {
+        return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+
+    }
+
+    private int convertPxToDp(int px) {
+        return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
