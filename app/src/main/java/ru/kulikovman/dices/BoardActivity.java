@@ -3,6 +3,10 @@ package ru.kulikovman.dices;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -16,6 +20,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,11 @@ public class BoardActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     private SoundPool mSoundPool;
     private int mRollDiceSound;
+
+    // The following are used for the shake detection
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +81,39 @@ public class BoardActivity extends AppCompatActivity {
         selectButton(mNumber);
         prepareBoard(mNumber);
         dropDices(false);
+
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (mSensorManager != null) {
+            mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+				/*
+				 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+
+                Log.d("log", "Обнаружена тряска - " + count);
+                //handleShakeEvent(count);
+            }
+        });
+    }
+
+    private void handleShakeEvent(int count) {
+
     }
 
     @Override
     protected void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+
         super.onPause();
         Log.d("myLog", "Запущен onPause");
 
@@ -95,6 +134,9 @@ public class BoardActivity extends AppCompatActivity {
 
         // Создаем SoundPool
         createSoundPool();
+
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
     }
 
     private void dropDices(boolean sound) {
