@@ -9,9 +9,9 @@
     <string name="font_family_condensed" translatable="false">sans-serif-condensed</string>
     <string name="font_family_black" translatable="false">sans-serif-black</string>
     <string name="font_family_thin" translatable="false">sans-serif-thin</string>
-    <string name="button_1_text">1</string>
-    <string name="button_2_text">2</string>
-    <string name="button_3_text">3</string>
-    <string name="button_4_text">4</string>
+    <string name="button_1_text" translatable="false">1</string>
+    <string name="button_2_text" translatable="false">2</string>
+    <string name="button_3_text" translatable="false">3</string>
+    <string name="button_4_text" translatable="false">4</string>
 
 </resources>
