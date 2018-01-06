@@ -67,19 +67,9 @@ public class BoardActivity extends AppCompatActivity {
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
 
-
-
-
-        // Тестирование
-        /*Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
-        Log.d("log", "status bar: " + getStatusBarHeight() + "px");
-        Log.d("log", "140dp = : " + convertDpToPx(140) + "px");
-        Log.d("log", "240dp = : " + convertDpToPx(240) + "px");
-        Log.d("log", "350dp = : " + convertDpToPx(350) + "px");
-        Log.d("log", "326dp = : " + convertDpToPx(326) + "px");*/
-
-
-        dropDices(4);
+        // Готовим доску и кидаем кубики
+        selectButton(mNumberOfDice);
+        prepareBoard(mNumberOfDice);
     }
 
     @Override
@@ -110,7 +100,7 @@ public class BoardActivity extends AppCompatActivity {
         createSoundPool();
     }
 
-    private void dropDices(int number) {
+    private void dropDices(int number, boolean sound) {
         List<Dice> dices = new ArrayList<>();
         Random random = new Random();
 
@@ -161,7 +151,9 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         // Воспроизводим звук бросания кубиков
-        mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
+        if (sound) {
+            mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
+        }
 
         // Размещаем кубики на поле
         Dice dice = dices.get(0);
@@ -226,7 +218,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void clickOnBoard(View view) {
-        dropDices(4);
+        dropDices(mNumberOfDice, true);
     }
 
     public int getStatusBarHeight() {
@@ -248,22 +240,68 @@ public class BoardActivity extends AppCompatActivity {
         return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    public void selectNumberCubes(View view) {
-        int id = view.getId();
-        selectButton(view);
+    private void prepareBoard(int number) {
+        // Сначала скрываем все кубики
+        mDice2.setVisibility(View.INVISIBLE);
+        mDice3.setVisibility(View.INVISIBLE);
+        mDice4.setVisibility(View.INVISIBLE);
 
+        // Потом показываем нужное количество
+        if (number >= 2) {
+            mDice2.setVisibility(View.VISIBLE);
+        }
 
+        if (number >= 3) {
+            mDice3.setVisibility(View.VISIBLE);
+        }
+
+        if (number >= 4) {
+            mDice4.setVisibility(View.VISIBLE);
+        }
+
+        // Переброс кубиков
+        dropDices(mNumberOfDice, false);
     }
 
-    private void selectButton(View view) {
+    public void selectNumberCubes(View view) {
+        // Получаем номер кнопки
+        Button button = (Button) view;
+        mNumberOfDice = Integer.parseInt(button.getText().toString());
+
+        // Выделяем кнопку и готовим доску
+        selectButton(button);
+        prepareBoard(mNumberOfDice);
+    }
+
+    private void selectButton(Button button) {
         // Снимаем выделение кнопок
+        clearButtonSelection();
+
+        // Выделяем нужную кнопку
+        button.setSelected(true);
+    }
+
+    private void selectButton(int number) {
+        // Снимаем выделение кнопок
+        clearButtonSelection();
+
+        // Выделяем нужную кнопку
+        if (number == 1) {
+            mButton1.setSelected(true);
+        } else if (number == 2) {
+            mButton2.setSelected(true);
+        } else if (number == 3) {
+            mButton3.setSelected(true);
+        } else if (number == 4) {
+            mButton4.setSelected(true);
+        }
+    }
+
+    private void clearButtonSelection() {
         mButton1.setSelected(false);
         mButton2.setSelected(false);
         mButton3.setSelected(false);
         mButton4.setSelected(false);
-
-        // Выделяем кнопку
-        view.setSelected(true);
     }
 
     @SuppressWarnings("deprecation")
