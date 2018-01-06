@@ -61,7 +61,7 @@ public class BoardActivity extends AppCompatActivity {
 
 
 
-        dropDices(4);
+        dropDices(2);
     }
 
     private int convertDpToPx(int dp) {
@@ -104,10 +104,20 @@ public class BoardActivity extends AppCompatActivity {
             Log.d("log", "Координаты: " + dice.getX() + " - " + dice.getY());
         }
 
+        // Размещаем кубики на поле
         moveDice(mDice1, coordinates.get(0).getX(), coordinates.get(0).getY());
-        moveDice(mDice2, coordinates.get(1).getX(), coordinates.get(1).getY());
-        moveDice(mDice3, coordinates.get(2).getX(), coordinates.get(2).getY());
-        moveDice(mDice4, coordinates.get(3).getX(), coordinates.get(3).getY());
+
+        if (number >= 2) {
+            moveDice(mDice2, coordinates.get(1).getX(), coordinates.get(1).getY());
+        }
+
+        if (number >= 3) {
+            moveDice(mDice3, coordinates.get(2).getX(), coordinates.get(2).getY());
+        }
+
+        if (number >= 4) {
+            moveDice(mDice4, coordinates.get(3).getX(), coordinates.get(3).getY());
+        }
 
     }
 
@@ -159,8 +169,8 @@ public class BoardActivity extends AppCompatActivity {
         view.setLayoutParams(params);*/
     }
 
-    public void dropDice(View view) {
-        dropDices(4);
+    public void clickOnBoard(View view) {
+        dropDices(2);
     }
 
     public int getStatusBarHeight() {

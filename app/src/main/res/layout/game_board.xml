@@ -40,7 +40,7 @@
     <!-- Место для кубиков -->
     <FrameLayout
         android:id="@+id/board"
-        android:onClick="dropDice"
+        android:onClick="clickOnBoard"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -64,7 +64,6 @@
 
         <ImageView
             android:id="@+id/dice_4"
-            android:layout_marginTop="326dp"
             android:layout_width="140dp"
             android:layout_height="140dp"
             app:srcCompat="@drawable/dice_4_04"/>
