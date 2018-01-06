@@ -20,11 +20,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
     </application>
 
 </manifest>

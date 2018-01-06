@@ -39,7 +39,7 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_board);
+        setContentView(R.layout.activity_board);
 
         Log.d("log", "Запущен onCreate в BoardActivity");
 
@@ -135,6 +135,7 @@ public class BoardActivity extends AppCompatActivity {
             }
         }
 
+        // Вывод в консоль
         for (Dice dice : dices) {
             Log.d("log", "Кубик: " + dice.getX() + " - " + dice.getY() +
                     " | " + dice.getNumber() + " - " + dice.getView());
@@ -145,26 +146,22 @@ public class BoardActivity extends AppCompatActivity {
             mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
         }
 
-        // Размещаем на поле первый кубик
+        // Размещаем кубики на поле
         Dice dice = dices.get(0);
         moveDice(mDice1, dice.getX(), dice.getY());
         loadDiceImage(mDice1, dice.getNumber(), dice.getView());
 
-        // Второй кубик
         dice = dices.get(1);
         moveDice(mDice2, dice.getX(), dice.getY());
         loadDiceImage(mDice2, dice.getNumber(), dice.getView());
 
-        // Третий кубик
         dice = dices.get(2);
         moveDice(mDice3, dice.getX(), dice.getY());
         loadDiceImage(mDice3, dice.getNumber(), dice.getView());
 
-        // Четвертый кубик
         dice = dices.get(3);
         moveDice(mDice4, dice.getX(), dice.getY());
         loadDiceImage(mDice4, dice.getNumber(), dice.getView());
-
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
