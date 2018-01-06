@@ -49,12 +49,12 @@ public class BoardActivity extends AppCompatActivity {
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
 
         // Тестирование
-        Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
+        /*Log.d("log", "Размер поля: " + mWidth + " x " + mHeight);
         Log.d("log", "status bar: " + getStatusBarHeight() + "px");
         Log.d("log", "140dp = : " + convertDpToPx(140) + "px");
         Log.d("log", "240dp = : " + convertDpToPx(240) + "px");
         Log.d("log", "350dp = : " + convertDpToPx(350) + "px");
-        Log.d("log", "326dp = : " + convertDpToPx(326) + "px");
+        Log.d("log", "326dp = : " + convertDpToPx(326) + "px");*/
 
 
         dropDices(4);
@@ -111,20 +111,38 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         // Размещаем кубики на поле
-        moveDice(mDice1, dices.get(0).getX(), dices.get(0).getY());
+        Dice dice = dices.get(0);
+        moveDice(mDice1, dice.getX(), dice.getY());
+        loadDiceImage(mDice1, dice.getNumber(), dice.getView());
 
         if (number >= 2) {
-            moveDice(mDice2, dices.get(1).getX(), dices.get(1).getY());
+            dice = dices.get(1);
+            moveDice(mDice2, dice.getX(), dice.getY());
+            loadDiceImage(mDice2, dice.getNumber(), dice.getView());
         }
 
         if (number >= 3) {
-            moveDice(mDice3, dices.get(2).getX(), dices.get(2).getY());
+            dice = dices.get(2);
+            moveDice(mDice3, dice.getX(), dice.getY());
+            loadDiceImage(mDice3, dice.getNumber(), dice.getView());
         }
 
         if (number >= 4) {
-            moveDice(mDice4, dices.get(3).getX(), dices.get(3).getY());
+            dice = dices.get(3);
+            moveDice(mDice4, dice.getX(), dice.getY());
+            loadDiceImage(mDice4, dice.getNumber(), dice.getView());
         }
+    }
 
+    private void loadDiceImage(ImageView dice, int number, int view) {
+        // Формируем имя картинки с кубиком - dice_1_01
+        String diceNumber = String.valueOf(number);
+        String diceView = String.valueOf(view);
+        String diceImage = "dice_" + diceNumber + "_0" + diceView;
+
+        // Получаем идентификатор и присваиваем картинку
+        int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
+        dice.setImageResource(diceImageId);
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
