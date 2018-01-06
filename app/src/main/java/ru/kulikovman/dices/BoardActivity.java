@@ -57,13 +57,11 @@ public class BoardActivity extends AppCompatActivity {
         Log.d("log", "326dp = : " + convertDpToPx(326) + "px");
 
 
-
-
         dropDices(4);
     }
 
     private void dropDices(int number) {
-        List<Dice> coordinates = new ArrayList<>();
+        List<Dice> dices = new ArrayList<>();
         Random random = new Random();
 
         int counter = 0;
@@ -71,9 +69,27 @@ public class BoardActivity extends AppCompatActivity {
 
         while (intersection) {
             for (int i = 0; i < number; i++) {
+                // Генерируем координаты и сторону кубика
                 int x = random.nextInt(mWidth);
                 int y = random.nextInt(mHeight);
-                coordinates.add(new Dice(x, y));
+                int diceNumber = 1 + random.nextInt(6);
+
+                // Генерируем уникальный вид кубика
+                int diceView = 1 + random.nextInt(7);
+                boolean uniqueView = false;
+                while (!uniqueView) {
+                    uniqueView = true;
+                    for (Dice dice : dices) {
+                        if (diceView == dice.getView()) {
+                            uniqueView = false;
+                            diceView = 1 + random.nextInt(7);
+                            break;
+                        }
+                    }
+                }
+
+                // Добавляем новый кубик в список
+                dices.add(new Dice(x, y, diceNumber, diceView));
             }
 
             counter++;
@@ -81,30 +97,32 @@ public class BoardActivity extends AppCompatActivity {
                 Log.d("log", "Счетчик: " + counter);
             }
 
-            if (isIntersection(coordinates)) {
-                coordinates.clear();
+            // Если есть пересечения, то начинаем заново
+            if (isIntersection(dices)) {
+                dices.clear();
             } else {
                 intersection = false;
             }
         }
 
-        for (Dice dice : coordinates) {
-            Log.d("log", "Координаты: " + dice.getX() + " - " + dice.getY());
+        for (Dice dice : dices) {
+            Log.d("log", "Кубик: " + dice.getX() + " - " + dice.getY() +
+                    " | " + dice.getNumber() + " - " + dice.getView());
         }
 
         // Размещаем кубики на поле
-        moveDice(mDice1, coordinates.get(0).getX(), coordinates.get(0).getY());
+        moveDice(mDice1, dices.get(0).getX(), dices.get(0).getY());
 
         if (number >= 2) {
-            moveDice(mDice2, coordinates.get(1).getX(), coordinates.get(1).getY());
+            moveDice(mDice2, dices.get(1).getX(), dices.get(1).getY());
         }
 
         if (number >= 3) {
-            moveDice(mDice3, coordinates.get(2).getX(), coordinates.get(2).getY());
+            moveDice(mDice3, dices.get(2).getX(), dices.get(2).getY());
         }
 
         if (number >= 4) {
-            moveDice(mDice4, coordinates.get(3).getX(), coordinates.get(3).getY());
+            moveDice(mDice4, dices.get(3).getX(), dices.get(3).getY());
         }
 
     }

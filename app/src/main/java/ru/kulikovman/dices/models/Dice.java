@@ -4,10 +4,14 @@ package ru.kulikovman.dices.models;
 public class Dice {
     private int mX;
     private int mY;
+    private int number;
+    private int view;
 
-    public Dice(int x, int y) {
+    public Dice(int x, int y, int number, int view) {
         mX = x;
         mY = y;
+        this.number = number;
+        this.view = view;
     }
 
     public int getX() {
@@ -24,5 +28,21 @@ public class Dice {
 
     public void setY(int y) {
         mY = y;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
     }
 }
