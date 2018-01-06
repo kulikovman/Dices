@@ -17,21 +17,25 @@
         <Button
             android:id="@+id/button_1"
             style="@style/ButtonStyle"
+            android:onClick="clickNumberButton"
             android:text="@string/button_1_text"/>
 
         <Button
             android:id="@+id/button_2"
             style="@style/ButtonStyle"
+            android:onClick="clickNumberButton"
             android:text="@string/button_2_text"/>
 
         <Button
             android:id="@+id/button_3"
             style="@style/ButtonStyle"
+            android:onClick="clickNumberButton"
             android:text="@string/button_3_text"/>
 
         <Button
             android:id="@+id/button_4"
             style="@style/ButtonStyle"
+            android:onClick="clickNumberButton"
             android:text="@string/button_4_text"/>
 
     </LinearLayout>
