@@ -5,10 +5,10 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "ru.kulikovman.dices"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4
-        versionName '2.1'
+        versionCode 5
+        versionName '2.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

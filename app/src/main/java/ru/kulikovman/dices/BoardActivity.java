@@ -131,14 +131,20 @@ public class BoardActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     private void initSoundPool() {
         if (mSoundPool == null) {
-            // Создаем SoundPool для Android API 21 и выше
-            AudioAttributes attributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Создаем SoundPool для Android API 21 и выше
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
 
-            mSoundPool = new SoundPool.Builder().setAudioAttributes(attributes)
-                    .build();
+                mSoundPool = new SoundPool.Builder()
+                        .setAudioAttributes(attributes)
+                        .build();
+            } else {
+                // Создаем SoundPool для старых версий Android
+                mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+            }
 
             // Получаем id звуковых файлов
             loadIdSounds();
