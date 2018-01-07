@@ -107,7 +107,7 @@ public class BoardActivity extends AppCompatActivity {
         initSoundPool();
 
         // Add the following line to register the Session Manager Listener onResume
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     private void initShakeDetector() {
@@ -121,7 +121,7 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
-				// Действие при встряхивании устройства
+                // Действие при встряхивании устройства
                 dropDices(true);
                 Log.d("log", "Обнаружена тряска - " + count);
             }
@@ -131,38 +131,29 @@ public class BoardActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     private void initSoundPool() {
         if (mSoundPool == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                // Создаем SoundPool для Android API 21 и выше
-                AudioAttributes attributes = new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_GAME)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .build();
+            // Создаем SoundPool для Android API 21 и выше
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
 
-                mSoundPool = new SoundPool.Builder()
-                        .setAudioAttributes(attributes)
-                        .build();
-            } else {
-                // Создаем SoundPool для старых версий Android
-                mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-            }
-
-            Log.d("myLog", "Создали SoundPool");
+            mSoundPool = new SoundPool.Builder().setAudioAttributes(attributes)
+                    .build();
 
             // Получаем id звуковых файлов
             loadIdSounds();
+
+            Log.d("myLog", "Создали SoundPool");
         }
     }
 
     private void loadIdSounds() {
         mRollDiceSound = mSoundPool.load(this, R.raw.roll_dice, 1);
-
-        Log.d("myLog", "Получили id звуковых файлов");
     }
 
     private void clearSoundPool() {
         mSoundPool.release();
         mSoundPool = null;
-
         Log.d("myLog", "SoundPool очищен");
     }
 
