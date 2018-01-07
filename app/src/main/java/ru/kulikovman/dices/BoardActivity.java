@@ -63,7 +63,7 @@ public class BoardActivity extends AppCompatActivity {
         mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 1);
 
         // Создаем SoundPool
-        createSoundPool();
+        initSoundPool();
 
         // Инициализация ShakeDetector
         initShakeDetector();
@@ -104,14 +104,13 @@ public class BoardActivity extends AppCompatActivity {
         Log.d("myLog", "Запущен onResume");
 
         // Создаем SoundPool
-        createSoundPool();
+        initSoundPool();
 
         // Add the following line to register the Session Manager Listener onResume
         mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
     }
 
     private void initShakeDetector() {
-        // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -122,11 +121,7 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
-				/*
-				 * The following method, "handleShakeEvent(count):" is a stub //
-				 * method you would use to setup whatever you want done once the
-				 * device has been shook.
-				 */
+				// Действие при встряхивании устройства
                 dropDices(true);
                 Log.d("log", "Обнаружена тряска - " + count);
             }
@@ -134,7 +129,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("deprecation")
-    private void createSoundPool() {
+    private void initSoundPool() {
         if (mSoundPool == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // Создаем SoundPool для Android API 21 и выше
