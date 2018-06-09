@@ -329,10 +329,10 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void loadDiceImage(ImageView dice, int number, int view) {
-        // Формируем имя картинки с кубиком - dice_1_01
+        // Формируем имя картинки с кубиком - dice_1_01_w
         String diceNumber = String.valueOf(number);
         String diceView = String.valueOf(view);
-        String diceImage = "dice_" + diceNumber + "_0" + diceView;
+        String diceImage = "dice_" + diceNumber + "_0" + diceView + "_" + mColor;
 
         // Получаем идентификатор и присваиваем картинку
         int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
