@@ -9,22 +9,20 @@
     </style>
 
     <!-- Кнопки -->
-    <style name="NumberButtonStyle" parent="AppTheme">
+    <style name="ButtonStyle" parent="AppTheme">
         <item name="android:layout_width">@dimen/button_size</item>
         <item name="android:layout_height">@dimen/button_size</item>
         <item name="android:layout_margin">@dimen/button_margin</item>
+    </style>
+
+    <style name="NumberButtonStyle" parent="ButtonStyle">
         <item name="android:background">@drawable/top_number_button</item>
         <item name="android:textColor">@color/gray_6</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="ColorButtonStyle" parent="AppTheme">
-        <item name="android:layout_width">@dimen/button_size</item>
-        <item name="android:layout_height">@dimen/button_size</item>
-        <item name="android:layout_margin">@dimen/button_margin</item>
-        <item name="android:background">@drawable/top_color_button</item>
-        <item name="android:textColor">@color/gray_6</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
+    <style name="WhiteButtonStyle" parent="ButtonStyle">
+        <item name="android:background">@drawable/top_color_button_white</item>
     </style>
 
 </resources>
