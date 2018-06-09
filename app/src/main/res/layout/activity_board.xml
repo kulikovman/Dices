@@ -38,6 +38,12 @@
             android:onClick="clickNumberButton"
             android:text="@string/button_4_text"/>
 
+        <Button
+            android:id="@+id/button_color"
+            style="@style/ButtonStyle"
+            android:onClick="changeColor"
+            android:text="@string/button_4_text"/>
+
     </LinearLayout>
 
 

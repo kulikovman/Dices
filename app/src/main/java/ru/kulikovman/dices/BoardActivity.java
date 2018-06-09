@@ -26,7 +26,7 @@ import ru.kulikovman.dices.models.Dice;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private Button mButton1, mButton2, mButton3, mButton4;
+    private Button mButton1, mButton2, mButton3, mButton4, mButtonColor;
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
@@ -50,6 +50,7 @@ public class BoardActivity extends AppCompatActivity {
         Log.d("log", "Запущен onCreate в BoardActivity");
 
         // Инициализируем вью элементы
+        mButtonColor = findViewById(R.id.button_color);
         mButton1 = findViewById(R.id.button_1);
         mButton2 = findViewById(R.id.button_2);
         mButton3 = findViewById(R.id.button_3);
@@ -346,5 +347,10 @@ public class BoardActivity extends AppCompatActivity {
 
     private int convertPxToDp(int px) {
         return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    public void changeColor(View view) {
+        // Меняем цвет кубиков
+
     }
 }
