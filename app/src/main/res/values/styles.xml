@@ -21,8 +21,8 @@
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="WhiteButtonStyle" parent="ButtonStyle">
-        <item name="android:background">@drawable/top_color_button_white</item>
+    <style name="ColorButtonStyle" parent="ButtonStyle">
+        <item name="android:background">@drawable/top_color_button_random</item>
     </style>
 
 </resources>

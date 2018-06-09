@@ -13,5 +13,6 @@
     <string name="button_2_text" translatable="false">2</string>
     <string name="button_3_text" translatable="false">3</string>
     <string name="button_4_text" translatable="false">4</string>
+    <string name="color_button_text" translatable="false"><![CDATA[&]]></string>
 
 </resources>
