@@ -350,7 +350,24 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void changeColor(View view) {
-        // Меняем цвет кубиков
-
+        // Меняем цвет кубиков и кнопки
+        switch (mColor) {
+            case "random":
+                mColor = "w";
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
+                break;
+            case "w":
+                mColor = "b";
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_black);
+                break;
+            case "b":
+                mColor = "r";
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_red);
+                break;
+            case "r":
+                mColor = "random";
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_random);
+                break;
+        }
     }
 }
