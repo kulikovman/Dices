@@ -64,10 +64,8 @@ public class BoardActivity extends AppCompatActivity {
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
         mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 2);
 
-        // Создаем SoundPool
+        // Инициализация SoundPool и ShakeDetector
         initSoundPool();
-
-        // Инициализация ShakeDetector
         initShakeDetector();
 
         // Получение границ координат для размещения кубиков
