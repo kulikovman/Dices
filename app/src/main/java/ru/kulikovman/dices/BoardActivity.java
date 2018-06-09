@@ -77,7 +77,7 @@ public class BoardActivity extends AppCompatActivity {
         // Готовим доску и кидаем кубики
         selectButton(mNumber);
         prepareBoard(mNumber);
-        dropDices(false);
+        dropDice(false);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onShake(int count) {
                 // Действие при встряхивании устройства
-                dropDices(true);
+                dropDice(true);
                 Log.d("log", "Обнаружена тряска - " + count);
             }
         });
@@ -194,7 +194,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void clickOnBoard(View view) {
-        dropDices(true);
+        dropDice(true);
     }
 
     public void clickNumberButton(View view) {
@@ -233,7 +233,7 @@ public class BoardActivity extends AppCompatActivity {
         mButton4.setSelected(false);
     }
 
-    private void dropDices(boolean sound) {
+    private void dropDice(boolean sound) {
         List<Dice> dices = new ArrayList<>();
         Random random = new Random();
 
