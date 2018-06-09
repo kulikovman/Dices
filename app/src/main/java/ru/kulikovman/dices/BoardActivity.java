@@ -338,7 +338,7 @@ public class BoardActivity extends AppCompatActivity {
         String diceView = String.valueOf(view);
         String diceColor = getDiceColor();
 
-        String diceImage = "dice_" + diceNumber + "_0" + diceView + "_" + diceColor;
+        String diceImage = "dice_" + diceColor + "_" + diceNumber + diceView;
 
         // Получаем идентификатор и присваиваем картинку
         int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
