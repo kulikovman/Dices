@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Кнопки -->
-    <dimen name="button_size">40dp</dimen>
+    <dimen name="button_size">30dp</dimen>
     <dimen name="button_margin">5dp</dimen>
-    <dimen name="button_text_size">18sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
 
     <!-- Кубики -->
     <dimen name="dice_size">140dp</dimen>
