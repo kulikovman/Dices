@@ -41,7 +41,6 @@ public class BoardActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
-    private String mRandomColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,9 @@ public class BoardActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mWidth = displayMetrics.widthPixels - convertDpToPx(140);
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
+
+        // Устанавливаем стиль кнопки цвета
+        setColorButtonStyle();
 
         // Готовим доску и кидаем кубики
         selectButton(mNumber);
@@ -352,13 +354,26 @@ public class BoardActivity extends AppCompatActivity {
         return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    private void setColorButtonStyle() {
+        switch (mColor) {
+            case "w":
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
+                break;
+            case "b":
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_black);
+                break;
+            case "r":
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_red);
+                break;
+            case "random":
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_random);
+                break;
+        }
+    }
+
     public void changeColor(View view) {
         // Меняем цвет кубиков и кнопки
         switch (mColor) {
-            case "random":
-                mColor = "w";
-                mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
-                break;
             case "w":
                 mColor = "b";
                 mButtonColor.setBackgroundResource(R.drawable.top_color_button_black);
@@ -370,6 +385,10 @@ public class BoardActivity extends AppCompatActivity {
             case "r":
                 mColor = "random";
                 mButtonColor.setBackgroundResource(R.drawable.top_color_button_random);
+                break;
+            case "random":
+                mColor = "w";
+                mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
                 break;
         }
     }
