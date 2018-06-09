@@ -31,7 +31,7 @@ public class BoardActivity extends AppCompatActivity {
     private int mWidth, mHeight;
 
     private int mNumber;
-    private String mColor = "b";
+    private String mColor = "w";
 
     private SharedPreferences mSharedPref;
     private SoundPool mSoundPool;
@@ -63,6 +63,7 @@ public class BoardActivity extends AppCompatActivity {
         // Получаем SharedPreferences и восстанавливаем количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
         mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 2);
+        mColor = mSharedPref.getString(getString(R.string.color_of_dice), "w");
 
         // Инициализация SoundPool и ShakeDetector
         initSoundPool();
