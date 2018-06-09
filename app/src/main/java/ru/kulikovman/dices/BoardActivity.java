@@ -89,10 +89,11 @@ public class BoardActivity extends AppCompatActivity {
         super.onPause();
         Log.d("myLog", "Запущен onPause");
 
-        // Сохраняем количество кубиков
+        // Сохраняем цвет и количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSharedPref.edit();
         editor.putInt(getString(R.string.number_of_dice), mNumber);
+        editor.putString(getString(R.string.color_of_dice), mColor);
         editor.apply();
 
         // Очищаем SoundPool
