@@ -41,6 +41,7 @@ public class BoardActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
+    private String mRandomColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,10 +331,12 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void loadDiceImage(ImageView dice, int number, int view) {
-        // Формируем имя картинки с кубиком - dice_1_01_w
+        // Формируем имя ресурса картинки с кубиком - dice_1_01_w
         String diceNumber = String.valueOf(number);
         String diceView = String.valueOf(view);
-        String diceImage = "dice_" + diceNumber + "_0" + diceView + "_" + mColor;
+        String diceColor = getDiceColor();
+
+        String diceImage = "dice_" + diceNumber + "_0" + diceView + "_" + diceColor;
 
         // Получаем идентификатор и присваиваем картинку
         int diceImageId = getResources().getIdentifier(diceImage, "drawable", getPackageName());
@@ -368,6 +371,28 @@ public class BoardActivity extends AppCompatActivity {
                 mColor = "random";
                 mButtonColor.setBackgroundResource(R.drawable.top_color_button_random);
                 break;
+        }
+    }
+
+    public String getDiceColor() {
+        if (mColor.equals("random")) {
+            // Возвращаем случайный цвет
+            Random random = new Random();
+            int number = 1 + random.nextInt(3);
+
+            switch (number) {
+                case 1:
+                    return "w";
+                case 2:
+                    return "b";
+                case 3:
+                    return "r";
+                default:
+                    return "w";
+            }
+        } else {
+            // Возвращаем установленный цвет
+            return mColor;
         }
     }
 }
