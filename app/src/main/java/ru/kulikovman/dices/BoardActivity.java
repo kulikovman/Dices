@@ -31,6 +31,7 @@ public class BoardActivity extends AppCompatActivity {
     private int mWidth, mHeight;
 
     private int mNumber;
+    private String mColor = "w";
 
     private SharedPreferences mSharedPref;
     private SoundPool mSoundPool;
