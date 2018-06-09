@@ -62,7 +62,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // Получаем SharedPreferences и восстанавливаем количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
-        mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 1);
+        mNumber = mSharedPref.getInt(getString(R.string.number_of_dice), 2);
 
         // Создаем SoundPool
         initSoundPool();
