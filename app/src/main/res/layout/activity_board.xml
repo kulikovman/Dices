@@ -43,6 +43,11 @@
             style="@style/ColorButtonStyle"
             android:onClick="changeColor"/>
 
+        <TextView
+            android:id="@+id/counter"
+            style="@style/CountButtonStyle"
+            android:text="24"/>
+
     </LinearLayout>
 
 
