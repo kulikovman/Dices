@@ -30,6 +30,7 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
+    private List<Dice> mDices = new ArrayList<>();;
     private int mNumber;
     private String mColor = "w";
 
@@ -239,7 +240,10 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void dropDice(boolean sound) {
-        List<Dice> dices = new ArrayList<>();
+        // Очищаем результеты прошлого броска
+        mDices.clear();
+
+        // Новый бросок
         Random random = new Random();
 
         boolean intersection = true;
@@ -255,7 +259,7 @@ public class BoardActivity extends AppCompatActivity {
                 boolean uniqueView = false;
                 while (!uniqueView) {
                     uniqueView = true;
-                    for (Dice dice : dices) {
+                    for (Dice dice : mDices) {
                         if (diceView == dice.getView()) {
                             uniqueView = false;
                             diceView = 1 + random.nextInt(7);
@@ -265,19 +269,19 @@ public class BoardActivity extends AppCompatActivity {
                 }
 
                 // Добавляем новый кубик в список
-                dices.add(new Dice(x, y, diceNumber, diceView));
+                mDices.add(new Dice(x, y, diceNumber, diceView));
             }
 
             // Если есть пересечения, то начинаем заново
-            if (isIntersection(dices)) {
-                dices.clear();
+            if (isIntersection(mDices)) {
+                mDices.clear();
             } else {
                 intersection = false;
             }
         }
 
         // Вывод в консоль
-        for (Dice dice : dices) {
+        for (Dice dice : mDices) {
             Log.d("log", "Кубик: " + dice.getX() + " - " + dice.getY() +
                     " | " + dice.getNumber() + " - " + dice.getView());
         }
@@ -288,21 +292,16 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         // Размещаем кубики на поле
-        Dice dice = dices.get(0);
-        moveDice(mDice1, dice.getX(), dice.getY());
-        loadDiceImage(mDice1, dice.getNumber(), dice.getView());
+        moveDice(mDice1, mDices.get(0).getX(), mDices.get(0).getY());
+        moveDice(mDice2, mDices.get(1).getX(), mDices.get(1).getY());
+        moveDice(mDice3, mDices.get(2).getX(), mDices.get(2).getY());
+        moveDice(mDice4, mDices.get(3).getX(), mDices.get(3).getY());
 
-        dice = dices.get(1);
-        moveDice(mDice2, dice.getX(), dice.getY());
-        loadDiceImage(mDice2, dice.getNumber(), dice.getView());
-
-        dice = dices.get(2);
-        moveDice(mDice3, dice.getX(), dice.getY());
-        loadDiceImage(mDice3, dice.getNumber(), dice.getView());
-
-        dice = dices.get(3);
-        moveDice(mDice4, dice.getX(), dice.getY());
-        loadDiceImage(mDice4, dice.getNumber(), dice.getView());
+        // Назначаем картинки
+        loadDiceImage(mDice1, mDices.get(0).getNumber(), mDices.get(0).getView());
+        loadDiceImage(mDice2, mDices.get(1).getNumber(), mDices.get(1).getView());
+        loadDiceImage(mDice3, mDices.get(2).getNumber(), mDices.get(2).getView());
+        loadDiceImage(mDice4, mDices.get(3).getNumber(), mDices.get(3).getView());
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
@@ -333,7 +332,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void loadDiceImage(ImageView dice, int number, int view) {
-        // Формируем имя ресурса картинки с кубиком - dice_1_01_w
+        // Формируем имя ресурса картинки с кубиком - dice_w_24
         String diceNumber = String.valueOf(number);
         String diceView = String.valueOf(view);
         String diceColor = getDiceColor();
