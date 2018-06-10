@@ -30,7 +30,7 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
-    private List<Dice> mDices = new ArrayList<>();;
+    private List<Dice> mDices = new ArrayList<>();
     private int mNumber;
     private String mColor = "w";
 
@@ -180,7 +180,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void prepareBoard(int number) {
-        // Сначала скрываем все кубики
+        // Сначала скрываем все кубики (кроме первого)
         mDice2.setVisibility(View.INVISIBLE);
         mDice3.setVisibility(View.INVISIBLE);
         mDice4.setVisibility(View.INVISIBLE);
@@ -252,17 +252,17 @@ public class BoardActivity extends AppCompatActivity {
                 // Генерируем координаты и сторону кубика
                 int x = random.nextInt(mWidth);
                 int y = random.nextInt(mHeight);
-                int diceNumber = 1 + random.nextInt(6);
+                int diceNumber = 1 + random.nextInt(6); // от 1 до 6
 
                 // Генерируем уникальный вид кубика
-                int diceView = 1 + random.nextInt(7);
+                int diceView = 1 + random.nextInt(7); // от 1 до 7
                 boolean uniqueView = false;
                 while (!uniqueView) {
                     uniqueView = true;
                     for (Dice dice : mDices) {
                         if (diceView == dice.getView()) {
                             uniqueView = false;
-                            diceView = 1 + random.nextInt(7);
+                            diceView = 1 + random.nextInt(7); // от 1 до 7
                             break;
                         }
                     }
@@ -405,7 +405,7 @@ public class BoardActivity extends AppCompatActivity {
         if (mColor.equals("random")) {
             // Возвращаем случайный цвет
             Random random = new Random();
-            int number = 1 + random.nextInt(3);
+            int number = 1 + random.nextInt(3); // от 1 до 3
 
             switch (number) {
                 case 1:
