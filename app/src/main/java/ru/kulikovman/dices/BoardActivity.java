@@ -77,7 +77,7 @@ public class BoardActivity extends AppCompatActivity {
         mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
 
         // Устанавливаем стиль кнопки цвета
-        setColorButtonStyle();
+        setStyleForColorButton();
 
         // Готовим доску и кидаем кубики
         selectButton(mNumber);
@@ -298,10 +298,16 @@ public class BoardActivity extends AppCompatActivity {
         moveDice(mDice4, mDices.get(3).getX(), mDices.get(3).getY());
 
         // Назначаем картинки
-        loadDiceImage(mDice1, mDices.get(0).getNumber(), mDices.get(0).getView());
-        loadDiceImage(mDice2, mDices.get(1).getNumber(), mDices.get(1).getView());
-        loadDiceImage(mDice3, mDices.get(2).getNumber(), mDices.get(2).getView());
-        loadDiceImage(mDice4, mDices.get(3).getNumber(), mDices.get(3).getView());
+        redrawDices();
+    }
+
+    private void redrawDices() {
+        if (!mDices.isEmpty()) {
+            loadDiceImage(mDice1, mDices.get(0).getNumber(), mDices.get(0).getView());
+            loadDiceImage(mDice2, mDices.get(1).getNumber(), mDices.get(1).getView());
+            loadDiceImage(mDice3, mDices.get(2).getNumber(), mDices.get(2).getView());
+            loadDiceImage(mDice4, mDices.get(3).getNumber(), mDices.get(3).getView());
+        }
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
@@ -353,7 +359,7 @@ public class BoardActivity extends AppCompatActivity {
         return Math.round(px / (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private void setColorButtonStyle() {
+    private void setStyleForColorButton() {
         switch (mColor) {
             case "w":
                 mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
@@ -390,6 +396,9 @@ public class BoardActivity extends AppCompatActivity {
                 mButtonColor.setBackgroundResource(R.drawable.top_color_button_white);
                 break;
         }
+
+        // Перерисовываем картинки
+        redrawDices();
     }
 
     public String getDiceColor() {
