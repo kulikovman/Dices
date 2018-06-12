@@ -288,6 +288,9 @@ public class BoardActivity extends AppCompatActivity {
 
         // Воспроизводим звук бросания кубиков
         if (sound) {
+            if (mSoundPool == null) {
+                initSoundPool();
+            }
             mSoundPool.play(mRollDiceSound, 1, 1, 1, 0, 1);
         }
 
