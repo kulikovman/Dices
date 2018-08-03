@@ -1,9 +1,11 @@
 # Dices
-Приложение для бросания игровых кубиков. Кубики часто теряются и не всегда бывают удобными. Это приложение решает обе проблемы.
+An application for throwing dice. Cubes are often lost and not always comfortable. This application solves both problems.
 
 ## Application Functionality:
-* Quickly add tasks.
-* Quickly change the parameters of the task, without having to open it.
+* Select the number of cubes.
+* Select the color of the cubes.
+* Support mixed colors.
+* You can throw the dice by shaking the device.
 
 ## Screenshots:
 ![screenshot of sample](http://kulikovman.ru/android/img/Dices.jpg)
