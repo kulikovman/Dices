@@ -9,8 +9,12 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +25,8 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ru.kulikovman.dices.models.Dice;
 
@@ -33,6 +39,7 @@ public class BoardActivity extends AppCompatActivity {
     private List<Dice> mDices = new ArrayList<>();
     private int mNumber;
     private String mColor = "w";
+    private boolean isReadyForRoll;
 
     private SharedPreferences mSharedPref;
     private SoundPool mSoundPool;
@@ -47,6 +54,9 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
+        // Версия приложения уже повышена с 3.21 до 3.22
+        // думал что надо исправить ошибку с локализацией )))
 
         Log.d("log", "Запущен onCreate в BoardActivity");
 
@@ -200,7 +210,9 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void clickOnBoard(View view) {
-        dropDice(true);
+        if (isReadyForRoll) {
+            dropDice(true);
+        }
     }
 
     public void clickNumberButton(View view) {
@@ -302,6 +314,15 @@ public class BoardActivity extends AppCompatActivity {
 
         // Назначаем картинки
         redrawDices();
+
+        // Задержка для исключения ложного броска
+        isReadyForRoll = false;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                isReadyForRoll = true;
+            }
+        }, 1000); // 1 секунда
     }
 
     private void redrawDices() {
