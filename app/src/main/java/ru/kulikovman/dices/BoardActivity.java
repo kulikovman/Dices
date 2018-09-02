@@ -9,12 +9,8 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +32,7 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView mDice1, mDice2, mDice3, mDice4;
     private int mWidth, mHeight;
 
-    private List<Dice> mDices = new ArrayList<>();
+    private List<Dice> mDiceList = new ArrayList<>();
     private int mNumber;
     private String mColor = "w";
     private boolean isReadyForRoll;
@@ -45,7 +41,6 @@ public class BoardActivity extends AppCompatActivity {
     private SoundPool mSoundPool;
     private int mRollDiceSound;
 
-    // The following are used for the shake detection
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
@@ -54,11 +49,6 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-
-        // Версия приложения уже повышена с 3.21 до 3.22
-        // думал что надо исправить ошибку с локализацией )))
-
-        Log.d("log", "Запущен onCreate в BoardActivity");
 
         // Инициализируем вью элементы
         mButtonColor = findViewById(R.id.button_color);
@@ -83,8 +73,10 @@ public class BoardActivity extends AppCompatActivity {
         // Получение границ координат для размещения кубиков
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        mWidth = displayMetrics.widthPixels - convertDpToPx(140);
-        mHeight = displayMetrics.heightPixels - convertDpToPx(140 + 100) - getStatusBarHeight();
+        int diceSize = convertDpToPx(140);
+        int buttonPanelHeight = convertDpToPx(90);
+        mWidth = displayMetrics.widthPixels - diceSize;
+        mHeight = displayMetrics.heightPixels - diceSize - buttonPanelHeight - getStatusBarHeight();
 
         // Устанавливаем стиль кнопки цвета
         setStyleForColorButton();
@@ -101,7 +93,6 @@ public class BoardActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mShakeDetector);
 
         super.onPause();
-        Log.d("myLog", "Запущен onPause");
 
         // Сохраняем цвет и количество кубиков
         mSharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -117,7 +108,6 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("myLog", "Запущен onResume");
 
         // Создаем SoundPool
         initSoundPool();
@@ -138,13 +128,12 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onShake(int count) {
                 // Действие при встряхивании устройства
-                dropDice(true);
                 Log.d("log", "Обнаружена тряска - " + count);
+                dropDice(true);
             }
         });
     }
 
-    @SuppressWarnings("deprecation")
     private void initSoundPool() {
         if (mSoundPool == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -163,20 +152,13 @@ public class BoardActivity extends AppCompatActivity {
             }
 
             // Получаем id звуковых файлов
-            loadIdSounds();
-
-            Log.d("myLog", "Создали SoundPool");
+            mRollDiceSound = mSoundPool.load(this, R.raw.roll_dice, 1);
         }
-    }
-
-    private void loadIdSounds() {
-        mRollDiceSound = mSoundPool.load(this, R.raw.roll_dice, 1);
     }
 
     private void clearSoundPool() {
         mSoundPool.release();
         mSoundPool = null;
-        Log.d("myLog", "SoundPool очищен");
     }
 
     public int getStatusBarHeight() {
@@ -191,9 +173,9 @@ public class BoardActivity extends AppCompatActivity {
 
     private void prepareBoard(int number) {
         // Сначала скрываем все кубики (кроме первого)
-        mDice2.setVisibility(View.INVISIBLE);
-        mDice3.setVisibility(View.INVISIBLE);
-        mDice4.setVisibility(View.INVISIBLE);
+        mDice2.setVisibility(View.GONE);
+        mDice3.setVisibility(View.GONE);
+        mDice4.setVisibility(View.GONE);
 
         // Показываем нужное количество кубиков
         if (number >= 2) {
@@ -253,7 +235,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private void dropDice(boolean sound) {
         // Очищаем результеты прошлого броска
-        mDices.clear();
+        mDiceList.clear();
 
         // Новый бросок
         Random random = new Random();
@@ -271,7 +253,7 @@ public class BoardActivity extends AppCompatActivity {
                 boolean uniqueView = false;
                 while (!uniqueView) {
                     uniqueView = true;
-                    for (Dice dice : mDices) {
+                    for (Dice dice : mDiceList) {
                         if (diceView == dice.getView()) {
                             uniqueView = false;
                             diceView = 1 + random.nextInt(7); // от 1 до 7
@@ -281,21 +263,20 @@ public class BoardActivity extends AppCompatActivity {
                 }
 
                 // Добавляем новый кубик в список
-                mDices.add(new Dice(x, y, diceNumber, diceView));
+                mDiceList.add(new Dice(x, y, diceNumber, diceView));
             }
 
             // Если есть пересечения, то начинаем заново
-            if (isIntersection(mDices)) {
-                mDices.clear();
+            if (isIntersection(mDiceList)) {
+                mDiceList.clear();
             } else {
                 intersection = false;
             }
         }
 
         // Вывод в консоль
-        for (Dice dice : mDices) {
-            Log.d("log", "Кубик: " + dice.getX() + " - " + dice.getY() +
-                    " | " + dice.getNumber() + " - " + dice.getView());
+        for (Dice dice : mDiceList) {
+            Log.d("log", "Кубик: " + dice.getX() + " - " + dice.getY() + " | " + dice.getNumber() + " - " + dice.getView());
         }
 
         // Воспроизводим звук бросания кубиков
@@ -307,10 +288,10 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         // Размещаем кубики на поле
-        moveDice(mDice1, mDices.get(0).getX(), mDices.get(0).getY());
-        moveDice(mDice2, mDices.get(1).getX(), mDices.get(1).getY());
-        moveDice(mDice3, mDices.get(2).getX(), mDices.get(2).getY());
-        moveDice(mDice4, mDices.get(3).getX(), mDices.get(3).getY());
+        moveDice(mDice1, mDiceList.get(0).getX(), mDiceList.get(0).getY());
+        moveDice(mDice2, mDiceList.get(1).getX(), mDiceList.get(1).getY());
+        moveDice(mDice3, mDiceList.get(2).getX(), mDiceList.get(2).getY());
+        moveDice(mDice4, mDiceList.get(3).getX(), mDiceList.get(3).getY());
 
         // Назначаем картинки
         redrawDices();
@@ -326,17 +307,17 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void redrawDices() {
-        if (!mDices.isEmpty()) {
-            loadDiceImage(mDice1, mDices.get(0).getNumber(), mDices.get(0).getView());
-            loadDiceImage(mDice2, mDices.get(1).getNumber(), mDices.get(1).getView());
-            loadDiceImage(mDice3, mDices.get(2).getNumber(), mDices.get(2).getView());
-            loadDiceImage(mDice4, mDices.get(3).getNumber(), mDices.get(3).getView());
+        if (!mDiceList.isEmpty()) {
+            loadDiceImage(mDice1, mDiceList.get(0).getNumber(), mDiceList.get(0).getView());
+            loadDiceImage(mDice2, mDiceList.get(1).getNumber(), mDiceList.get(1).getView());
+            loadDiceImage(mDice3, mDiceList.get(2).getNumber(), mDiceList.get(2).getView());
+            loadDiceImage(mDice4, mDiceList.get(3).getNumber(), mDiceList.get(3).getView());
         }
     }
 
     private boolean isIntersection(List<Dice> coordinates) {
         // Расстояние между центрами кубиков
-        int dist = convertDpToPx(130);
+        int dist = convertDpToPx(110);
 
         // Проверка пересечений
         for (Dice d1 : coordinates) {
