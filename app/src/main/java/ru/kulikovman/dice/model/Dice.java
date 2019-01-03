@@ -1,4 +1,4 @@
-package ru.kulikovman.dices.models;
+package ru.kulikovman.dice.model;
 
 
 public class Dice {

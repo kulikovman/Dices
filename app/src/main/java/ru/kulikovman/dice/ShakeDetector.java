@@ -1,4 +1,4 @@
-package ru.kulikovman.dices;
+package ru.kulikovman.dice;
 
 
 import android.hardware.Sensor;

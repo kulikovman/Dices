@@ -1,4 +1,4 @@
-package ru.kulikovman.dices;
+package ru.kulikovman.dice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ru.kulikovman.dices.models.Dice;
+import ru.kulikovman.dice.model.Dice;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -303,7 +303,7 @@ public class BoardActivity extends AppCompatActivity {
             public void run() {
                 isReadyForRoll = true;
             }
-        }, 1000); // 1 секунда
+        }, 300); // 1 секунда
     }
 
     private void redrawDices() {
